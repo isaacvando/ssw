@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="styles.css?v={{ static_asset_hash }}" as="style">
+    <link rel="preload" href="fonts/subset/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/subset/JetBrainsMono-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/subset/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="images/logo_padded.svg" as="image">
+    <link rel="preload" href="images/andrew_kelley.avif" as="image">
+    <link rel="preload" href="images/richard_feldman.avif" as="image">
+    <link rel="preload" href="images/hillel_wayne.avif" as="image">
+    <link rel="preload" href="images/carson_gross.avif" as="image">
+    <link rel="stylesheet" href="styles.css?v={{ static_asset_hash }}">
+    <link rel="icon" href="images/logo_padded.svg">
+    <meta name="description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <title>Software Should Work</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Software Should Work">
+    <meta property="og:description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <meta property="og:image" content="https://softwareshould.work/images/ssw_overview.png">
+    <meta property="og:url" content="https://softwareshould.work">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Software Should Work">
+    <meta name="twitter:description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <meta name="twitter:image" content="https://softwareshould.work/images/ssw_overview.png">
+    <script
+      data-goatcounter="https://softwareshouldwork.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </head>
+  <body>
+    <main>
+      {% include "header.html" %}
+      <p class="main-paragraph">An independent conference on software reliability.</p>
+      {% if show_success_banner %}
+      <p class="banner"><strong>Success!</strong>
+        You will receive a confirmation email from Stripe shortly. If you have any issues, please reach out to
+        <a href="mailto:isaac@softwareshouldwork.com">isaac@softwareshouldwork.com</a>.</p>
+      <script>history.replaceState(null, '', '/');</script>
+      {% endif %}
+      {% if show_sold_out_banner %}
+      <p class="banner">Oops! Tickets are sold out.</p>
+      <script>history.replaceState(null, '', '/');</script>
+      {% endif %}
+      <h2>Speakers</h2>
+      <div class="card-grid">
+        <figure class="card">
+          <a href="https://andrewkelley.me/"><img src="images/andrew_kelley.avif" alt="Andrew Kelley"></a>
+          <figcaption>
+            <div class="card-name">Andrew Kelley</div>
+            <div class="card-subtitle">Creator of Zig</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://x.com/rtfeldman"><img src="images/richard_feldman.avif" alt="Richard Feldman"></a>
+          <figcaption>
+            <div class="card-name">Richard Feldman</div>
+            <div class="card-subtitle">Creator of Roc, Software Engineer at Zed</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.hillelwayne.com"><img src="images/hillel_wayne.avif" alt="Hillel Wayne"></a>
+          <figcaption>
+            <div class="card-name">Hillel Wayne</div>
+            <div class="card-subtitle">Author of
+              <em>Logic for Programmers</em>
+              and
+              <em>Practical TLA+</em></div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://bigsky.software/cv/">
+            <img src="images/carson_gross.avif" alt="Carson Gross">
+          </a>
+          <figcaption>
+            <div class="card-name">Carson Gross</div>
+            <div class="card-subtitle">Creator of HTMX, Instructor at Montana State University</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="http://www.filpizlo.com/"><img src="images/fil_pizlo.avif" alt="Filip Pizlo"></a>
+          <figcaption>
+            <div class="card-name">Filip Pizlo</div>
+            <div class="card-subtitle">Creator of Fil-C, Senior Director of Language Engineering at Epic Games</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://lorinhochstein.org/"><img src="images/lorin_hochstein.avif" alt="Lorin Hochstein"></a>
+          <figcaption>
+            <div class="card-name">Lorin Hochstein</div>
+            <div class="card-subtitle">Staff Reliability Engineer at Airbnb, Author of
+              <em>Chaos Engineering</em></div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.bellotti.tech/"><img src="images/marianne_bellotti.avif" alt="Marianne Bellotti"></a>
+          <figcaption>
+            <div class="card-name">Marianne Bellotti</div>
+            <div class="card-subtitle">Author of
+              <em>Kill it with Fire</em>, Maintainer of Safety Critical Systems</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.linkedin.com/in/cadrlife/"><img src="images/ray_myers.avif" alt="Ray Myers"></a>
+          <figcaption>
+            <div class="card-name">Ray Myers</div>
+            <div class="card-subtitle">Chief Architect at Open Hands</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.linkedin.com/in/john-murray-026305127/"><img src="images/john_murray.avif" alt="John Murray"></a>
+          <figcaption>
+            <div class="card-name">John Murray</div>
+            <div class="card-subtitle">Senior Software Engineer at Antithesis</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/logo_padded.svg" alt="To be announced">
+          <figcaption>
+            <div class="card-name">To be announced</div>
+            <div class="card-subtitle">To be announced</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/logo_padded.svg" alt="To be announced">
+          <figcaption>
+            <div class="card-name">To be announced</div>
+            <div class="card-subtitle">To be announced</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/logo_padded.svg" alt="To be announced">
+          <figcaption>
+            <div class="card-name">To be announced</div>
+            <div class="card-subtitle">To be announced</div>
+          </figcaption>
+        </figure>
+      </div>
+      <h2>Sponsors</h2>
+      <div class="sponsors">
+        <a href="https://antithesis.com"><img src="images/antithesis.avif" alt="Antithesis logo"></a>
+        <a href="https://rwx.com"><img src="images/rwx.svg" alt="RWX logo"></a>
+        <a href="https://paytient.com"><img style="height: 55px; margin-left: 19px;" src="images/paytient.svg"></a>
+        <a href="https://redbud.vc"><img style="height: 70px; margin-left: 8px;" src="images/redbud.svg" alt="Redbud VC logo"></a>
+      </div>
+      <h2>Tickets</h2>
+      <div class="tickets">
+        <div class="ticket-option {% if !is_early_bird || is_sold_out  %}disabled{% endif %}">
+          <div class="ticket-price">$499</div>
+          <div class="ticket-info">
+            <h3>Early Bird</h3>
+            <p>Until March 13 or the first 100 tickets sold</p>
+          </div>
+        </div>
+        <div class="ticket-option {% if is_early_bird || is_sold_out %}disabled{% endif %}">
+          <div class="ticket-price">$599</div>
+          <div class="ticket-info">
+            <h3>Standard</h3>
+            <p>Ends July 8th</p>
+          </div>
+        </div>
+        <form id="tickets" class="ticket-option ticket-cta {% if is_sold_out %}disabled{% endif %}" action="/checkout" method="post">
+          <button type="submit" {% if is_sold_out %}disabled{% endif %}>{% if is_sold_out %}Sold Out{% else %}Buy Now{% endif %}</button>
+        </form>
+      </div>
+      <p>Student discount: send proof of enrollment to
+        <a href="mailto:isaac@softwareshouldwork.com">isaac@softwareshouldwork.com</a>
+        for $150 off.</p>
+      <div id="interested-banner" class="banner" style="display: none;"></div>
+      <form id="interested-form">
+        <label for="interested-email">Keep me updated</label>
+        <div class="form-row">
+          <input type="email" id="interested-email" name="email" placeholder="you@example.com" required>
+          <button type="submit">Subscribe</button>
+        </div>
+      </form>
+      <h2>Schedule</h2>
+      <div class="schedule">
+        <div class="schedule-day">
+          <h3>July 16</h3>
+          <div class="timeline">
+            <span class="timeline-time">8:00am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Registration</span>
+            <span class="timeline-time">9:00am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Day one begins</span>
+            <span class="timeline-time">5:00pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Day one ends</span>
+            <span class="timeline-time">8:00pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">SSW party</span>
+          </div>
+        </div>
+        <div class="schedule-day">
+          <h3>July 17</h3>
+          <div class="timeline">
+            <span class="timeline-time">9:00am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Day two begins</span>
+            <span class="timeline-time">4:15pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Day two ends</span>
+          </div>
+        </div>
+      </div>
+      <h2>Venue</h2>
+      <figure>
+        <div class="media-row">
+          <img src="images/tiger_hotel_front2.avif" alt="The Tiger Hotel Entrance" loading="lazy">
+          <img src="images/tiger_hotel_sign.avif" alt="The Tiger Hotel Sign" loading="lazy">
+        </div>
+        <figcaption>
+          <p>SSW will be held at
+            <a href="https://www.thetigerhotel.com">voco The Tiger Hotel</a>,
+            23 S 8th St, Columbia, MO 65201. Book a room with our
+            <a href="https://www.ihg.com/redirect?path=asearch&amp;brandCode=vx&amp;localeCode=en&amp;regionCode=1&amp;hotelCode=COUVO&amp;checkInDate=15&amp;checkInMonthYear=062026&amp;checkOutDate=18&amp;checkOutMonthYear=062026&amp;rateCode=6CBARC&amp;_PMID=99801505&amp;GPC=SSW&amp;cn=no&amp;adjustMonth=false&amp;showApp=true&amp;monthIndex=00">group rate</a>, or consider staying at
+            <a href="https://www.hilton.com/en/hotels/coutbdt-the-broadway-columbia/">The Broadway</a>, a 6 minute walk from the venue.</p>
+        </figcaption>
+      </figure>
+      <h2>Travel</h2>
+      <p>Fly into the
+        <a href="https://www.flycou.com/">Columbia Regional Airport</a>
+        (COU), or for more options, consider landing in St. Louis (STL) and taking a
+        <a href="https://www.moexpress.com/">shuttle</a>
+        or rental car.</p>
+      <h2>While in COMO</h2>
+      <figure>
+        <div class="media-row">
+          <img src="images/mizzou.avif" alt="Mizzou campus" loading="lazy">
+          <img src="images/mkt.avif" alt="MKT Trail" loading="lazy">
+        </div>
+        <figcaption>
+          <p>Visit
+            <a href="https://mizzou.edu">Mizzou's campus</a>
+            or explore our extensive
+            <a href="https://www.como.gov/trails/mkt-nature-and-fitness-trail/">rail trail network</a>.</p>
+        </figcaption>
+      </figure>
+      <h2>Isaac's Food Guide</h2>
+      <!-- Maybes: -->
+      <!-- - Barred owl -->
+      <!-- - Endwell Taverna -->
+      <div class="food-guide-key">
+        <div>
+          <span class="icon icon-info"></span>
+          Food genre
+        </div>
+        <div>
+          <span class="icon icon-heart"></span>
+          Isaac's favorites
+        </div>
+        <div>
+          <span class="icon icon-footprints"></span>
+          Walking distance from the venue
+        </div>
+      </div>
+      <div class="card-grid food">
+        <figure class="card">
+          <a href="https://share.google/kOeAOvujZ8ktrspDJ">
+            <img src="images/sage-pain-au-chocolat.avif" alt="pain au chocolat from Sage" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Sage</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Pastries, brunch, and coffee
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Butter croissant, quiche
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                3 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.eatabeetbox.com/">
+            <img src="images/beetbox.avif" alt="shakshuka from Beet Box" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Beet Box</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Middle-eastern fusion
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Pop tarts, shawarma, BEC
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                18 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.pizzatreepizza.com/">
+            <img src="images/pizza_tree.avif" alt="Burnt End Zone from Pizza Tree" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Pizza Tree</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Creative pizza to-go
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Logbro, Kimchi
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://mahiethiopiankitchen.com/">
+            <img src="images/mahis.avif" alt="Sample platter from Mahi's" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Mahi's Ethiopian Kitchen</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Authentic Ethiopian
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Doro wot, Yemisir wot
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.thaiexpresscomo.com/">
+            <img src="images/thai_express.avif" alt="Curry from Thai Express" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Thai Express</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Casual Thai
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Yellow curry, fried rice
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                7 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.bcteazone.com/">
+            <img src="images/bubblecup.avif" alt="Milk tea from Bubblecup" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Bubblecup Tea Zone</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Columbia's original boba
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Tiger, grapefruit
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://kampaialley.com/">
+            <img src="images/kampai.avif" alt="Nigiri from Kampai" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Kampai</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Sushi
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Spider roll, crispy brussel sprouts
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.ordergoldies.com/">
+            <img src="images/goldies_bagels.avif" alt="Food from Goldie's Bagels" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Goldie's Bagels</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Bagels
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Zhug, BB Queen
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://share.google/wHxTOuUYakHScAsAy">
+            <img src="images/sparkys.avif" alt="Ice cream from Sparky's" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Sparky's Ice Cream</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Eclectic homemade ice cream
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Ube, Oreo Speedwagon
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                2 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.logboatbrewing.com/">
+            <img src="images/logboat.avif" alt="Beer from Logboat" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Logboat Brewing</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Award winning beer and cider
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Shiphead, Turtle Power, Lei-a
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                17 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.irenesbbq.com/">
+            <img src="images/irenes.avif" alt="Food from Irene's" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Irene's BBQ</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Live-fire tex-mex BBQ
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Any sausage, al pastor
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                19 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://www.lebaoeatery.com/">
+            <img src="images/lebao.avif" alt="Ramen from Le Bao" loading="lazy">
+          </a>
+          <figcaption>
+            <div class="card-name">Le Bao Asian Eatery</div>
+            <div class="card-subtitle">
+              <div class="food-info">
+                <span class="icon icon-info"></span>
+                Ramen and bao
+              </div>
+              <div class="food-favorites">
+                <span class="icon icon-heart"></span>
+                Spicy chicken ramen
+              </div>
+              <div class="food-distance">
+                <span class="icon icon-footprints"></span>
+                9 minutes
+              </div>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </main>
+    {% include "footer.html" %}
+    <script>
+      document.getElementById('interested-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('interested-email').value;
+        const banner = document.getElementById('interested-banner');
+
+        const response = await fetch('/interested', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (response.ok) {
+          banner.textContent = "Thanks! We'll keep you updated.";
+          document.getElementById('interested-email').value = '';
+        } else {
+          banner.textContent = 'An error occurred. Please try again.';
+        }
+        banner.style.display = 'block';
+      });
+    </script>
+  </body>
+</html>

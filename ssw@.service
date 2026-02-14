@@ -1,0 +1,22 @@
+[Unit]
+Description=SSW - %i
+After=network.target
+
+[Service]
+User=root
+ExecStart=/root/ssw
+Restart=always
+RestartSec=1
+
+# Give the service time to finish processing requests before killing it
+TimeoutStopSec=30
+
+EnvironmentFile=/root/config.env
+EnvironmentFile=/root/secrets.env
+EnvironmentFile=/root/%i.env
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

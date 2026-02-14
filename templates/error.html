@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles.css?v={{ static_asset_hash }}">
+    <link rel="icon" href="/images/logo_padded.svg">
+    <title>Error - Software Should Work</title>
+  </head>
+  <body>
+    <main>
+      {% include "header.html" %}
+      <h2>Uh oh! Our software didn't work.</h2>
+      <p>{{ message }}</p>
+      <br>
+      <p><a href="/">Back home</a></p>
+    </main>
+    {% include "footer.html" %}
+  </body>
+</html>

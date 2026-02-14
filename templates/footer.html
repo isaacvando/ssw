@@ -1,0 +1,35 @@
+<footer>
+  <p>
+     &copy;
+    <span id="copyright-year"></span>
+    Software Should Work | 
+        Organized by
+    <a href="https://isaacvando.com">Isaac Van Doren</a>
+    | Contact
+    <a href="mailto:isaac@softwareshouldwork.com">isaac@softwareshouldwork.com</a>
+    |
+    <a href="/policies">Policies</a>
+  </p>
+</footer>
+<script>
+  document.getElementById("copyright-year").textContent = new Date().getFullYear();
+
+      // Disable double form submissions
+      document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", event => {
+          if (form.classList.contains("is-submitting")) {
+            event.preventDefault();
+          }          
+          form.classList.add("is-submitting");
+        })
+      });
+      
+      // Reenable submitting the form if is-submitting is still set on pageshow (i.e. after hitting the back button with the page in the BF cache)
+      window.addEventListener('pageshow', function(event) {
+        document.querySelectorAll("form").forEach(form => {
+          if (event.persisted) {
+            form.classList.remove("is-submitting");
+          }
+        });
+      });
+</script>

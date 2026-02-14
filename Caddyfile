@@ -1,0 +1,36 @@
+www.softwareshould.work {
+	redir https://softwareshould.work{uri}
+}
+
+softwareshould.work {
+	root * ./static
+	encode zstd gzip
+
+	@static file {
+		try_files {path} {path}.html
+	}
+
+	handle @static {
+		try_files {path} {path}.html
+		file_server
+
+		@assets path *.css *.js *.woff *.woff2 *.png *.jpg *.jpeg *.gif *.svg *.ico *.webp *.avif
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+	}
+
+	handle {
+		reverse_proxy localhost:3000
+
+		header {
+			# Browser: don't cache, always revalidate
+			Cache-Control "public, max-age=0, must-revalidate"
+			# Cloudflare: cache for 5 minutes
+			# If expired, serve the stale version while fetching the new one (for up to 60s).
+			CDN-Cache-Control "public, max-age=300"
+
+			# Disallow embedding in iFrame
+			X-Frame-Options "DENY"
+			Content-Security-Policy "frame-ancestors 'none';"
+		}
+	}
+}

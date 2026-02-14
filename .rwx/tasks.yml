@@ -1,0 +1,63 @@
+on:
+  github:
+    push:
+      init:
+        commit-sha: ${{ event.git.sha }}
+  cli:
+    init:
+      commit-sha: ${{ event.git.sha }}
+base:
+  os: ubuntu 24.04
+  tag: 1.2
+
+tool-cache:
+  vault: default
+
+tasks:
+  - key: system-packages
+    run: |
+      sudo apt-get update
+      sudo apt-get install sqlite3 rsync
+      sudo apt-get clean
+
+  - key: code
+    call: git/clone 2.0.0
+    with:
+      repository: https://github.com/isaacvando/ssw.git
+      ref: ${{ init.commit-sha }}
+      github-token: ${{ github['isaacvando'].token }}
+
+  - key: local-db
+    use: [code, system-packages]
+    run: ./migrate.sh
+    filter:
+      - migrations
+      - migrate.sh
+
+  - key: rust
+    call: rust-lang/install 1.0.5
+    with:
+      rust-version: 1.91.0
+
+  - key: server-binary
+    use: [rust, local-db]
+    run: |
+      DATABASE_URL=sqlite:ssw.db cargo build --release
+    tool-cache: compile-rust
+    filter:
+      - "!static"
+
+  - key: deploy
+    use: [server-binary]
+    cache: false
+    run: ./deploy.sh
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      B2_KEY_ID: ${{ secrets.b2_key_id }}
+      B2_SECRET_KEY: ${{ secrets.b2_secret_key }}
+      STRIPE_API_KEY: ${{ secrets.stripe_api_key }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.stripe_webhook_secret }}
+      CLOUDFLARE_API_KEY: ${{ secrets.cloudflare_api_key }}
+      GRAFANA_API_KEY: ${{ secrets.grafana_api_key }}
+      SERVER_IP_ADDRESS: ${{ secrets.server_ip_address }}
+      CLOUDFLARE_ZONE: ${{ secrets.cloudflare_zone }}
