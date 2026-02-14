@@ -3,6 +3,7 @@ Software Should Work Website
 
 Icons are from Lucide
 
+
 ## TODO
 - Add a descriptive paragraph to the landing page?
 - write tests (mocking stripe?)
