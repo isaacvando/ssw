@@ -513,7 +513,6 @@ async fn interested_user(
     State(env): State<Env>,
     Json(payload): Json<InterestedUserRequest>,
 ) -> AppResult<StatusCode> {
-    info!("Added interested user: {}", payload.email);
     sqlx::query!(
         r#"
         insert into interested_user (email)
