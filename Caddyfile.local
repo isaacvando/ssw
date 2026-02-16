@@ -1,0 +1,17 @@
+http://localhost:8080 {
+    root * ./static
+    encode zstd gzip
+
+    @static file {
+        try_files {path} {path}.html
+    }
+
+    handle @static {
+        try_files {path} {path}.html
+        file_server
+    }
+
+    handle {
+        reverse_proxy localhost:3000
+    }
+}

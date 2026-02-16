@@ -50,7 +50,7 @@ tasks:
   - key: deploy
     use: [server-binary]
     cache: false
-    run: deploy/deploy.sh
+    run: ./deploy.sh
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       B2_KEY_ID: ${{ secrets.b2_key_id }}

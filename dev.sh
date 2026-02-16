@@ -1,7 +1,7 @@
 #!/bin/bash
 
 trap "kill 0" EXIT # Kill Caddy when the script exits
-caddy run &
+caddy run --config Caddyfile.local &
 
 ./migrate.sh local
 

@@ -52,7 +52,7 @@ EOF
 ssh server 'systemctl restart litestream && systemctl is-active litestream --quiet'
 
 echo "Applying DB migrations"
-../migrate.sh server
+./migrate.sh server
 
 echo "Copying service files"
 scp blue.env server:/root

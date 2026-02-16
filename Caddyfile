@@ -1,17 +1,36 @@
-http://localhost:8080 {
-    root * ./static
-    encode zstd gzip
+www.softwareshould.work {
+	redir https://softwareshould.work{uri}
+}
 
-    @static file {
-        try_files {path} {path}.html
-    }
+softwareshould.work {
+	root * ./static
+	encode zstd gzip
 
-    handle @static {
-        try_files {path} {path}.html
-        file_server
-    }
+	@static file {
+		try_files {path} {path}.html
+	}
 
-    handle {
-        reverse_proxy localhost:3000
-    }
+	handle @static {
+		try_files {path} {path}.html
+		file_server
+
+		@assets path *.css *.js *.woff *.woff2 *.png *.jpg *.jpeg *.gif *.svg *.ico *.webp *.avif
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+	}
+
+	handle {
+		reverse_proxy localhost:3000
+
+		header {
+			# Browser: don't cache, always revalidate
+			Cache-Control "public, max-age=0, must-revalidate"
+			# Cloudflare: cache for 5 minutes
+			# If expired, serve the stale version while fetching the new one (for up to 60s).
+			CDN-Cache-Control "public, max-age=300"
+
+			# Disallow embedding in iFrame
+			X-Frame-Options "DENY"
+			Content-Security-Policy "frame-ancestors 'none';"
+		}
+	}
 }
