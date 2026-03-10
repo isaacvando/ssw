@@ -7,6 +7,7 @@ use axum::{
     routing::{get, post},
 };
 use chrono::{NaiveDate, Utc};
+use chrono_tz::America::Chicago;
 use serde::Deserialize;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
 use std::env;
@@ -292,8 +293,8 @@ async fn home_html(
 }
 
 fn is_early_bird(claimed: i64) -> bool {
-    let today = Utc::now().date_naive();
-    today <= NaiveDate::from_ymd_opt(2026, 3, 15).expect("Invalid date") && claimed <= 100
+    let today = Utc::now().with_timezone(&Chicago).date_naive();
+    today <= NaiveDate::from_ymd_opt(2026, 3, 13).expect("Invalid date") && claimed <= 100
 }
 
 #[derive(Template)]
