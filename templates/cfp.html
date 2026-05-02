@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles.css?v={{ static_asset_hash }}">
+    <link rel="icon" href="/images/logo_padded.svg">
+    <title>Call for Proposals - Software Should Work</title>
+    <style>
+      main p {
+      margin-top: var(--space-xs);
+      margin-bottom: var(--space-xs);
+    }
+    </style>
+  </head>
+  <body>
+    <main>
+      {% include "header.html" %}
+      <h2>Call for Proposals</h2>
+      <p>
+        Software Should Work is looking for engineers to present 7-minute lightning talks. The topics below are good starting points, but we're open to a broad range of possibilities.
+      </p>
+      <ul>
+        <li>Reliability</li>
+        <li>Performance</li>
+        <li>Testing</li>
+        <li>Databases</li>
+        <li>Programming languages</li>
+        <li>Infrastructure</li>
+        <li>Web development</li>
+      </ul>
+      <p>Because each slot is short, talks should get to the point quickly. Technical depth is welcome.</p>
+      <p>Accepted talks do not include free admission so selected speakers should plan to purchase a ticket.</p>
+      <form method="post" action="cfp">
+        <label for="name">Full name *</label>
+        <input id="name" name="name" type="text" required>
+        <label for="email">Email address *</label>
+        <input id="email" name="email" type="email" required>
+        <label for="title">Talk title *</label>
+        <input id="title" name="title" type="text" required>
+        <label for="abstract">Abstract *</label>
+        <textarea id="abstract" name="abstract" rows=15  cols=80  required></textarea>
+        <label for="comments">Comments</label>
+        <textarea id="comments" name="comments" rows=15  cols=80></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+    {% include "footer.html" %}
+  </body>
+</html>

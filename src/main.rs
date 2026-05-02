@@ -1,6 +1,6 @@
 use askama::Template;
 use axum::{
-    Router,
+    Form, Router,
     extract::State,
     http::{HeaderMap, StatusCode},
     response::{Html, IntoResponse, Json, Redirect, Response},
@@ -208,6 +208,9 @@ async fn main() {
         .route("/interested", post(interested_user))
         .route("/healthcheck", get(healthcheck))
         .route("/policies", get(policies))
+        .route("/cfp", get(cfp_get))
+        .route("/cfp", post(cfp_post))
+        .route("/cfp_success", get(cfp_success))
         .fallback(handler_404)
         .with_state(env)
         .layer(TraceLayer::new_for_http());
@@ -229,15 +232,19 @@ async fn healthcheck(State(env): State<Env>) -> AppResult<&'static str> {
 }
 
 async fn home(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, false, false).await
+    home_html(env, false, false, false).await
 }
 
 async fn success(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, true, false).await
+    home_html(env, true, false, false).await
 }
 
 async fn sold_out(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, false, true).await
+    home_html(env, false, true, false).await
+}
+
+async fn cfp_success(State(env): State<Env>) -> AppResult<Html<String>> {
+    home_html(env, false, false, true).await
 }
 
 #[derive(Template)]
@@ -245,8 +252,10 @@ async fn sold_out(State(env): State<Env>) -> AppResult<Html<String>> {
 struct HomeTemplate {
     is_early_bird: bool,
     is_sold_out: bool,
+    // TODO this pattern is bad and needs to be removed
     show_success_banner: bool,
     show_sold_out_banner: bool,
+    show_cfp_success_banner: bool,
     static_asset_hash: String,
 }
 
@@ -254,12 +263,13 @@ async fn home_html(
     env: Env,
     show_success_banner: bool,
     show_sold_out_banner: bool,
+    show_cfp_success_banner: bool,
 ) -> AppResult<Html<String>> {
     let claimed = sqlx::query!(
         r#"
            select count(*) as claimed
            from ticket
-           where status = 'Pending' or status = 'Sold' 
+           where status = 'Pending' or status = 'Sold'
         "#
     )
     .fetch_one(&env.pool)
@@ -287,6 +297,7 @@ async fn home_html(
         is_sold_out,
         show_success_banner,
         show_sold_out_banner,
+        show_cfp_success_banner,
         static_asset_hash: env.static_asset_hash,
     };
     Ok(template.render()?.into())
@@ -307,6 +318,48 @@ async fn policies(State(env): State<Env>) -> AppResult<Html<String>> {
         static_asset_hash: env.static_asset_hash,
     };
     Ok(template.render()?.into())
+}
+
+#[derive(Template)]
+#[template(path = "cfp.html")]
+struct CfpTemplate {
+    static_asset_hash: String,
+}
+async fn cfp_get(State(env): State<Env>) -> AppResult<Html<String>> {
+    let template = CfpTemplate {
+        static_asset_hash: env.static_asset_hash,
+    };
+    Ok(template.render()?.into())
+}
+
+#[derive(Deserialize)]
+struct CfpForm {
+    name: String,
+    email: String,
+    title: String,
+    r#abstract: String,
+    comments: Option<String>,
+}
+async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResult<Redirect> {
+    let result = sqlx::query!(
+        r#"
+          insert into proposal (name, email, title, abstract, comments)
+          values (?, ?, ?, ?, ?)
+          returning proposal_id
+        "#,
+        form.name,
+        form.email,
+        form.title,
+        form.r#abstract,
+        form.comments
+    )
+    .fetch_one(&env.pool)
+    .await?;
+    info!(
+        "Inserted proposal {} for {} ({}) titled \"{}\"",
+        result.proposal_id, form.name, form.email, form.title
+    );
+    return Ok(Redirect::to("/cfp_success".into()));
 }
 
 async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
@@ -382,7 +435,7 @@ async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redir
         r#"
           update ticket
           set stripe_checkout_session_id = ?, ip_address = ?
-          where ticket_id = ?  
+          where ticket_id = ?
         "#,
         response.id,
         ip_address,
@@ -443,7 +496,7 @@ async fn stripe_webhook(
             let attendee_id = sqlx::query!(
                 r#"
             insert into attendee (ticket_id, name, email, tshirt_size, traveling_from, workplace, subtotal, total, stripe_promo_code_id)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning attendee_id   
+            values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning attendee_id
             "#,
                 ticket_id,
                 name,

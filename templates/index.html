@@ -45,6 +45,11 @@
       <p class="banner">Oops! Tickets are sold out.</p>
       <script>history.replaceState(null, '', '/');</script>
       {% endif %}
+      {% if show_cfp_success_banner %}
+      <p class="banner"><strong>Success!</strong>
+        We've received your proposal.</p>
+      <script>history.replaceState(null, '', '/');</script>
+      {% endif %}
       <h2>Speakers</h2>
       <div class="card-grid">
         <figure class="card">
@@ -178,6 +183,11 @@
           <button type="submit">Subscribe</button>
         </div>
       </form>
+      <h2>Lightning Talks</h2>
+      <p>
+        Want to speak at Software Should Work? Submit a lightning talk
+        <a href="/cfp">proposal</a>!
+      </p>
       <h2>Schedule</h2>
       <div class="schedule">
         <div class="schedule-day">
