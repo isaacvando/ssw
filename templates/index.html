@@ -35,21 +35,21 @@
     <main>
       {% include "header.html" %}
       <p class="main-paragraph">An independent conference on software reliability.</p>
-      {% if show_success_banner %}
+      {% match banner %}
+      {% when Banner::TicketSuccess %}
       <p class="banner"><strong>Success!</strong>
         You will receive a confirmation email from Stripe shortly. If you have any issues, please reach out to
         <a href="mailto:isaac@softwareshouldwork.com">isaac@softwareshouldwork.com</a>.</p>
       <script>history.replaceState(null, '', '/');</script>
-      {% endif %}
-      {% if show_sold_out_banner %}
+      {% when Banner::SoldOut %}
       <p class="banner">Oops! Tickets are sold out.</p>
       <script>history.replaceState(null, '', '/');</script>
-      {% endif %}
-      {% if show_cfp_success_banner %}
+      {% when Banner::CfpSuccess %}
       <p class="banner"><strong>Success!</strong>
         We've received your proposal.</p>
       <script>history.replaceState(null, '', '/');</script>
-      {% endif %}
+      {% when Banner::None %}
+      {% endmatch %}
       <h2>Speakers</h2>
       <div class="card-grid">
         <figure class="card">

@@ -1,7 +1,7 @@
 use askama::Template;
 use axum::{
     Form, Router,
-    extract::State,
+    extract::{Query, State},
     http::{HeaderMap, StatusCode},
     response::{Html, IntoResponse, Json, Redirect, Response},
     routing::{get, post},
@@ -202,15 +202,12 @@ async fn main() {
     let app = Router::new()
         .route("/", get(home))
         .route("/checkout", post(checkout))
-        .route("/success", get(success))
-        .route("/sold_out", get(sold_out))
         .route("/stripe-webhook", post(stripe_webhook))
         .route("/interested", post(interested_user))
         .route("/healthcheck", get(healthcheck))
         .route("/policies", get(policies))
         .route("/cfp", get(cfp_get))
         .route("/cfp", post(cfp_post))
-        .route("/cfp_success", get(cfp_success))
         .fallback(handler_404)
         .with_state(env)
         .layer(TraceLayer::new_for_http());
@@ -231,40 +228,7 @@ async fn healthcheck(State(env): State<Env>) -> AppResult<&'static str> {
     Ok("Healthy")
 }
 
-async fn home(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, false, false, false).await
-}
-
-async fn success(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, true, false, false).await
-}
-
-async fn sold_out(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, false, true, false).await
-}
-
-async fn cfp_success(State(env): State<Env>) -> AppResult<Html<String>> {
-    home_html(env, false, false, true).await
-}
-
-#[derive(Template)]
-#[template(path = "index.html")]
-struct HomeTemplate {
-    is_early_bird: bool,
-    is_sold_out: bool,
-    // TODO this pattern is bad and needs to be removed
-    show_success_banner: bool,
-    show_sold_out_banner: bool,
-    show_cfp_success_banner: bool,
-    static_asset_hash: String,
-}
-
-async fn home_html(
-    env: Env,
-    show_success_banner: bool,
-    show_sold_out_banner: bool,
-    show_cfp_success_banner: bool,
-) -> AppResult<Html<String>> {
+async fn home(State(env): State<Env>, query: Query<BannerParam>) -> AppResult<Html<String>> {
     let claimed = sqlx::query!(
         r#"
            select count(*) as claimed
@@ -295,12 +259,44 @@ async fn home_html(
     let template = HomeTemplate {
         is_early_bird,
         is_sold_out,
-        show_success_banner,
-        show_sold_out_banner,
-        show_cfp_success_banner,
+        banner: query.banner(),
         static_asset_hash: env.static_asset_hash,
     };
     Ok(template.render()?.into())
+}
+
+#[derive(Clone, Copy)]
+enum Banner {
+    TicketSuccess,
+    SoldOut,
+    CfpSuccess,
+    None,
+}
+
+#[derive(Default, Deserialize)]
+struct BannerParam {
+    #[serde(default)]
+    banner: Option<String>,
+}
+
+impl BannerParam {
+    fn banner(&self) -> Banner {
+        match self.banner.as_deref() {
+            Some("ticket_success") => Banner::TicketSuccess,
+            Some("sold_out") => Banner::SoldOut,
+            Some("cfp_success") => Banner::CfpSuccess,
+            _ => Banner::None,
+        }
+    }
+}
+
+#[derive(Template)]
+#[template(path = "index.html")]
+struct HomeTemplate {
+    is_early_bird: bool,
+    is_sold_out: bool,
+    banner: Banner,
+    static_asset_hash: String,
 }
 
 fn is_early_bird(claimed: i64) -> bool {
@@ -359,7 +355,7 @@ async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResul
         "Inserted proposal {} for {} ({}) titled \"{}\"",
         result.proposal_id, form.name, form.email, form.title
     );
-    return Ok(Redirect::to("/cfp_success".into()));
+    return Ok(Redirect::to("/?banner=cfp_success".into()));
 }
 
 async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
@@ -394,7 +390,7 @@ async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redir
         Some(res) => res,
         None => {
             warn!("A user requested to open a checkout session but tickets are sold out");
-            return Ok(Redirect::to("/sold_out".into()));
+            return Ok(Redirect::to("/?banner=sold_out".into()));
         }
     };
     info!(

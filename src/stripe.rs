@@ -51,7 +51,10 @@ impl Stripe {
             .collect();
 
         let mut params: Vec<(String, String)> = vec![
-            ("success_url".into(), format!("{}/success", self.base_url)),
+            (
+                "success_url".into(),
+                format!("{}/?banner=ticket_success", self.base_url),
+            ),
             ("mode".into(), "payment".into()),
             ("expires_at".into(), expires_at.timestamp().to_string()),
             ("allow_promotion_codes".into(), "true".into()),
