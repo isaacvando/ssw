@@ -25,7 +25,6 @@ tasks:
     with:
       repository: https://github.com/isaacvando/ssw.git
       ref: ${{ init.commit-sha }}
-      github-token: ${{ github['isaacvando'].token }}
 
   - key: local-db
     use: [code, system-packages]
