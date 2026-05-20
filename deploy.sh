@@ -22,6 +22,7 @@ echo "Setting secrets"
 ssh server "umask 077 && cat > /root/secrets.env" <<EOF
 STRIPE_API_KEY=$STRIPE_API_KEY
 STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET
+LINKEDIN_ACCESS_TOKEN=${LINKEDIN_ACCESS_TOKEN:-}
 EOF
 
 echo "Setting up Alloy"
@@ -92,7 +93,7 @@ sleep 2
 if ssh server "curl -s -f http://localhost:$NEW_PORT/healthcheck > /dev/null"; then
   echo "Service is healthy, reloading caddy"
   sed "s/localhost:3000/localhost:$NEW_PORT/g" Caddyfile > Caddyfile.deploy
-  scp Caddyfile.deploy server:/etc/caddy/Caddyfile 
+  scp Caddyfile.deploy server:/etc/caddy/Caddyfile
   ssh server 'systemctl reload caddy && systemctl is-active caddy --quiet'
 
   echo "Purging Cloudflare cache"

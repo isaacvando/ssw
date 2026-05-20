@@ -8,11 +8,13 @@ use axum::{
 };
 use chrono::{NaiveDate, Utc};
 use chrono_tz::America::Chicago;
+use reqwest::Client;
 use serde::Deserialize;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
-use std::env;
 use std::net::SocketAddr;
 use std::str::FromStr;
+use std::{env, time::Duration};
+mod linkedin;
 mod stripe;
 use strum_macros::Display;
 use tokio::signal;
@@ -20,6 +22,7 @@ use tower_http::trace::TraceLayer;
 use tracing::{error, info, warn};
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
+use crate::linkedin::{CheckoutConversion, LinkedIn};
 use crate::stripe::{
     CheckoutSessionCompleted, CheckoutSessionExpired, Stripe, StripeEvent, WebhookError,
 };
@@ -153,6 +156,7 @@ type AppResult<T> = Result<T, AppError>;
 struct Env {
     pool: SqlitePool,
     stripe: Stripe,
+    linkedin: LinkedIn,
     static_asset_hash: String,
 }
 
@@ -192,11 +196,20 @@ async fn main() {
         early_bird_price_id: env_var("EARLY_BIRD_PRICE_ID"),
         standard_price_id: env_var("STANDARD_PRICE_ID"),
         base_url: env_var("BASE_URL"),
-        client: reqwest::Client::new(),
+        client: Client::new(),
+    };
+
+    let linkedin = LinkedIn {
+        access_token: env_var("LINKEDIN_ACCESS_TOKEN"),
+        client: Client::builder()
+            .timeout(Duration::from_secs(5))
+            .build()
+            .expect("Unable to build LinkedIn HTTP client"),
     };
     let env = Env {
         pool,
         stripe,
+        linkedin: linkedin,
         static_asset_hash: env::var("STATIC_ASSET_HASH").unwrap_or_else(|_| "dev".to_string()),
     };
     let app = Router::new()
@@ -474,9 +487,9 @@ async fn stripe_webhook(
             subtotal,
             promo_code_id,
         }) => {
-            let ticket_id = sqlx::query!(
+            let ticket = sqlx::query!(
                 r#"
-                select ticket_id
+                select ticket_id, ip_address
                 from ticket
                 where stripe_checkout_session_id = ?
                 and status = 'Pending'
@@ -485,8 +498,16 @@ async fn stripe_webhook(
             )
             .fetch_optional(&env.pool)
             .await?
-            .ok_or(AssertionFailure(format!("No ticket found with id {}", id)))?
-            .ticket_id;
+            .ok_or(AssertionFailure(format!("No ticket found with id {}", id)))?;
+
+            let ticket_id = ticket.ticket_id;
+            let linkedin_conversion = CheckoutConversion {
+                checkout_session_id: id.clone(),
+                name: name.clone(),
+                email: email.clone(),
+                total,
+                ip_address: ticket.ip_address,
+            };
 
             let mut tx = env.pool.begin().await?;
             let attendee_id = sqlx::query!(
@@ -526,6 +547,18 @@ async fn stripe_webhook(
                 result.rows_affected() == 1,
                 "A single ticket should be marked sold when a checkout session completes",
             )?;
+
+            tokio::spawn(async move {
+                match env
+                    .linkedin
+                    .clone()
+                    .send_checkout_conversion(linkedin_conversion)
+                    .await
+                {
+                    Ok(()) => info!("Sent LinkedIn checkout conversion"),
+                    Err(err) => warn!("Unable to send LinkedIn checkout conversion: {}", err),
+                }
+            });
 
             Ok(StatusCode::OK)
         }

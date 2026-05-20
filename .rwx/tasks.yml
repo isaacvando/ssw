@@ -61,3 +61,4 @@ tasks:
       GRAFANA_API_KEY: ${{ secrets.grafana_api_key }}
       SERVER_IP_ADDRESS: ${{ secrets.server_ip_address }}
       CLOUDFLARE_ZONE: ${{ secrets.cloudflare_zone }}
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.linkedin_access_token }}
