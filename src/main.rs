@@ -41,6 +41,7 @@ use AppError::*;
 #[derive(Display)]
 enum ValidationError {
     TicketsNoLongerOnSale,
+    CfpClosed,
 }
 
 #[derive(Template)]
@@ -104,6 +105,7 @@ impl IntoResponse for AppError {
                 info!("Validation error: {}", err);
                 let message = match err {
                     ValidationError::TicketsNoLongerOnSale => "Tickets are no longer on sale",
+                    ValidationError::CfpClosed => "The CFP is no longer accepting proposals",
                 };
                 (StatusCode::BAD_REQUEST, format!("Bad request: {}", message))
             }
@@ -349,7 +351,10 @@ struct CfpForm {
     r#abstract: String,
     comments: Option<String>,
 }
+#[allow(unused)]
 async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResult<Redirect> {
+    return Err(Validation(ValidationError::CfpClosed));
+    #[allow(unreachable_code)]
     let result = sqlx::query!(
         r#"
           insert into proposal (name, email, title, abstract, comments)

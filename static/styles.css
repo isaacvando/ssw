@@ -338,7 +338,7 @@ form > button {
   transform: scale(0.99) 0.2s ease;
 }
 
-.ticket-cta button:disabled {
+button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
