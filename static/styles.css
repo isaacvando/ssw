@@ -396,6 +396,7 @@ button:disabled {
 .schedule {
   display: flex;
   gap: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
 .schedule-day {
@@ -452,7 +453,46 @@ button:disabled {
 }
 
 .timeline-label {
+  color: var(--color-text);
+  padding-bottom: var(--space-sm);
+}
+
+.talk-details {
+  color: var(--color-text);
+}
+
+.talk-details summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.talk-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.speaker-name {
+  display: block;
+  font-weight: 700;
+}
+
+.talk-title {
+  display: block;
+  color: var(--color-text);
+}
+
+.talk-title::after {
+  content: ' (abstract)';
   color: var(--color-text-secondary);
+}
+
+.talk-details p {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-small);
+  color: var(--color-text);
+}
+
+.lightning-talks .talk-details {
+  margin-top: var(--space-sm);
 }
 
 .media-row {

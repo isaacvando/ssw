@@ -239,34 +239,277 @@
       <h2>Schedule</h2>
       <div class="schedule">
         <div class="schedule-day">
-          <h3>July 16</h3>
+          <h3>Thursday, July 16</h3>
           <div class="timeline">
             <span class="timeline-time">8:00am</span>
             <span class="timeline-dot"></span>
             <span class="timeline-label">Registration</span>
             <span class="timeline-time">9:00am</span>
             <span class="timeline-dot"></span>
-            <span class="timeline-label">Day one begins</span>
-            <span class="timeline-time">5:00pm</span>
+            <span class="timeline-label">Welcome and opening remarks</span>
+            <span class="timeline-time">9:15am</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Richard Feldman</span>
+                  <span class="talk-title"><em>TBA</em></span>
+                </summary>
+                <p>TBA</p>
+              </details>
+            </div>
+            <span class="timeline-time">10:00am</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Alexis King</span>
+                  <span class="talk-title"><em>The Unreasonable Effectiveness of Constructive Data Modeling</em></span>
+                </summary>
+                <p>TBA</p>
+              </details>
+            </div>
+            <span class="timeline-time">10:45am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Break</span>
+            <span class="timeline-time">11:15am</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Richard Hipp</span>
+                  <span class="talk-title"><em>TBA</em></span>
+                </summary>
+                <p>TBA</p>
+              </details>
+            </div>
+            <span class="timeline-time">12:00pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Lunch</span>
+            <span class="timeline-time">1:30pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Hillel Wayne</span>
+                  <span class="talk-title"><em>How to Find Bugs in Systems That Don't Exist</em></span>
+                </summary>
+                <p>Building correct distributed systems takes thinking outside the box, and the fastest way to do that is to think inside a different box. One different box is “formal methods”, the discipline of mathematically verifying software and systems. Formal methods teaches us to see a system through three different perspectives: the abstract specification behind the system, the environment it assumes, and the properties it should and shouldn’t have. Rather than gradually learning these perspectives from months of using formal methods, we will instead learn them through a forty-ish minute conference talk.</p>
+              </details>
+            </div>
+            <span class="timeline-time">2:15pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">John Murray</span>
+                  <span class="talk-title"><em>Derivations to Deployments: Practical Nix in Production</em></span>
+                </summary>
+                <p>At Antithesis, we care deeply about determinism and reproducibility. This led us to heavily adopt Nix throughout the entirety of our tech stack and deployment processes. This talk will cover some of the simple but powerful abstractions we built on top of Nix and how rethinking a "traditional" deployment setup has made Antithesis more reliable and development faster.</p>
+              </details>
+            </div>
+            <span class="timeline-time">3:00pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Break</span>
+            <span class="timeline-time">3:30pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Delaney Gillilan</span>
+                  <span class="talk-title"><em>Put State in the Right Place, or: How I Learned to Stop Worrying and Love the Web</em></span>
+                </summary>
+                <p>The web browser has never been more capable, yet modern web development often means hundreds of megabytes of dependencies, layers of abstractions, and an endless stream of security vulnerabilities. But there is another way. By leveraging the browser, embracing web standards, and putting state in the right place, we can create interactive apps that are simpler, more resilient, and built to stand the test of time. This talk explores how Datastar enables a return to web fundamentals without sacrificing performance or user experience.</p>
+              </details>
+            </div>
+            <span class="timeline-time">4:15pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <div class="lightning-talks">
+                <span class="speaker-name">Lightning Talks</span>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Andrew Helwer</span>
+                    <span class="talk-title"><em>How Good Are the Go &amp; Rust Concurrency Checkers?</em></span>
+                  </summary>
+                  <p>For concurrent and distributed systems, formal modeling languages like TLA+, P, and Quint are the gold standard for finding bugs before they appear in production. However, our field continues to evolve and now Go and Rust both have checkers that promise to provide “fearless concurrency” by validating your source code directly. How powerful are these checkers? A TLA+ user takes them for a spin.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Tommy Graves</span>
+                    <span class="talk-title"><em>Building Docker Images Faster by Changing the Dockerfile</em></span>
+                  </summary>
+                  <p>Container image builds are still based on an idea from 2013: a linear sequence of filesystem snapshots. The Dockerfile was a brilliant abstraction when containers were new, but it imposes constraints that make modern builds slower, less incremental, and harder to parallelize than they need to be.</p>
+                  <p>In this lightning talk, I'll propose a different approach: treating image construction as a dependency graph instead of a sequence of layers. Rather than executing a Dockerfile from top to bottom, we can build container images directly from content-addressed tasks, allowing work to be cached, reused, and parallelized at a much finer granularity.</p>
+                  <p>The result is the same OCI-compatible image, but produced in a way that more closely resembles how modern build systems compile software.</p>
+                  <p>We'll explore why Docker image builds invalidate more work than necessary, why layer-based caching has fundamental limitations, and what a graph-native image build system could look like instead.</p>
+                  <p>If you've ever wondered why a one-line change can trigger minutes of rebuilding, this talk is for you.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Erin Swenson-Healey</span>
+                    <span class="talk-title"><em>Tightly Couple Your Client to Your Server: Type-Safe, In-Process, Full-Stack Tests</em></span>
+                  </summary>
+                  <p>Our React tests do not stub out the backend. They do not use MSW. They do not record HTTP fixtures. They run against an in-memory instantiation of the actual server, in the same process as the React tree.</p>
+                  <p>The client and server talk to each other through a TypeScript interface. In production, the React app receives an implementation of that interface that is an HTTP client which makes XHRs to the real server. In tests, that implementation is the server itself, constructed in-process and backed by a real (in-memory) SQLite database created by running our production migrations and seeded using the same helpers we use in our server-side tests. Because the interface is a TypeScript type, every call across the client/server boundary is type-checked at compile time, in production and in tests alike.</p>
+                  <p>Drop the HTTP layer and the tests turn into ordinary function calls. What you give up: a thin smoke test of the HTTP boundary, and the option of writing your backend in something other than TypeScript. What you get back: full-stack tests that parallelize arbitrarily, because each one runs against its own in-memory SQLite database and shares no state with any other. There is no lifecycle to juggle across multiple stateful processes. The same setup utilities work in server-side tests and frontend tests. And there is no mocked or stubbed backend to keep in sync with the real implementation, because there is no mocked backend. I will show one test and trace it from React render to SQLite and back.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Jayaprabhakar Kadarkarai</span>
+                    <span class="talk-title"><em>Why You Should Create Your Own DSLs in the AI Era</em></span>
+                  </summary>
+                  <p>Most AI applications have moved beyond chat interfaces and now rely on structured outputs, function calling, and agent workflows. While these approaches work well initially, they often become difficult to scale as prompts grow, workflows become more complex, and reliability requirements increase.</p>
+                  <p>In this talk, I'll share lessons learned building AI-powered developer tools and explain why we started replacing ad-hoc schemas and function calls with purpose-built domain-specific languages (DSLs). I'll show how DSLs can make AI systems more reliable, easier to validate, cheaper to run, and easier for both humans and models to reason about.</p>
+                  <p>We'll look at concrete examples of where structured outputs break down, how a DSL can encode intent more effectively, and practical guidelines for deciding when a custom language is worth the investment.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Trevor Settles</span>
+                    <span class="talk-title"><em>I Just Wanted a Non-Blurry Screen Magnifier</em></span>
+                  </summary>
+                  <p>Accessibility is commonly bolted on instead of thought through at the beginning. This reduces usability for many users. This is a case study of that story for screen magnifiers.</p>
+                  <p>The current state of screen magnifiers is subpar and will essentially never change. Each pixel gets magnified and looks blurry at 5x+ zoom. The (seemingly) reasonable choice of representing the screen as a grid of pixels has unintended consequences.</p>
+                  <p>I'll walk you through my story of how I ran into this, tried to solve it, and ultimately found that it's not worth solving.</p>
+                  <p>It is a hard problem to think of all possible ways software could be used. In the case of screen magnifiers, they will always be a bit blurry. Here, the root solution is designing software in a way that a screen magnifier isn't even needed in the first place.</p>
+                  <p>Visibility into how others use software can help to make sure it is usable for more people. The earlier we know about what those problems are, the better we can make it.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Tom Wheeler</span>
+                    <span class="talk-title"><em>How Temporal Achieves Durable Execution</em></span>
+                  </summary>
+                  <p>Temporal is an open source platform used by thousands of companies to make applications more reliable. One of its key features is Durable Execution: crash-proof execution that gives applications automatic state persistence and the ability to run reliably for any length of time. In this lightning talk, you’ll see what happens when a Temporal application crashes, and how it automatically recovers and resumes without losing state or unnecessarily repeating work that has already completed.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Tilman Roeder</span>
+                    <span class="talk-title"><em>Be Careful When Improving Performance</em></span>
+                  </summary>
+                  <p>We have two systems at $work that are getting more loaded over time and started to fall over handling queries from clients.</p>
+                  <p>Counterintuitively, when we improved throughput and latency the systems started suffering from worse performance problems.</p>
+                  <p>In the lightning talk, I’ll explore why this can happen, how to spot accidental load-shedding in a service, and what to watch out for when trying to make sense of misleading metrics.</p>
+                </details>
+              </div>
+            </div>
+            <span class="timeline-time">5:15pm</span>
             <span class="timeline-dot"></span>
             <span class="timeline-label">Day one ends</span>
             <span class="timeline-time">8:00pm</span>
             <span class="timeline-dot"></span>
-            <span class="timeline-label">SSW party</span>
+            <span class="timeline-label">Reception at
+              <a href="https://www.logboatbrewing.com/">Logboat Brewing</a></span>
           </div>
         </div>
         <div class="schedule-day">
-          <h3>July 17</h3>
+          <h3>Friday, July 17</h3>
           <div class="timeline">
             <span class="timeline-time">9:00am</span>
             <span class="timeline-dot"></span>
-            <span class="timeline-label">Day two begins</span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Andrew Kelley</span>
+                  <span class="talk-title"><em>Don't Take the Black Pill</em></span>
+                </summary>
+                <p>In our modern world, it's easy to feel like things are careening out of
+control; that the future is happening to us while we take a back seat...
+and all we can do is lie down and rot.</p>
+                <p>
+                  I'm here to say, screw that! Let's apply systems thinking to the way
+that software and technology is integrated into our society, envision it
+differently, and then draw a line from here to there, identifying steps
+we can take
+                  <em>right now</em>
+                  along this trajectory.
+                </p>
+                <p>
+                  This talk will be passionate and heartfelt, provocative, and
+entertaining; it will offer the audience optimism, solidarity, and
+purpose in the chaotic socio-technological climate that we face.
+                </p>
+              </details>
+            </div>
+            <span class="timeline-time">9:45am</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Marianne Bellotti</span>
+                  <span class="talk-title"><em>TBA</em></span>
+                </summary>
+                <p>TBA</p>
+              </details>
+            </div>
+            <span class="timeline-time">10:30am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Break</span>
+            <span class="timeline-time">11:00am</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Ray Myers</span>
+                  <span class="talk-title"><em>Code Worth Writing</em></span>
+                </summary>
+                <p>Will code fade into the background, leaving us to steer software development with prompts and "taste"? For some kinds of software, probably. For others, that future is not just unlikely, it is dangerous.</p>
+                <p>
+                  The mistake is to treat "code" as one thing with a single future we can predict. Some code is disposable scaffolding. Some is a crucial record of decisions and invariants that the system depends on. In other words, there will continue to be code worth writing. What should it look like?
+                </p>
+                <p>This talk introduces Triple Ergonomics, a framework for evaluating programming languages and toolchains by how well they serve the three audiences now involved in software construction: humans, AI agents, and algorithms.</p>
+                <p>Using examples from today’s languages and tools, we'll show where each audience’s needs diverge, where they reinforce each other, and where current solutions fall short. Instead of predicting the future, we lay out constructive bets and practical criteria for shaping our emerging languages toward software we can trust.</p>
+              </details>
+            </div>
+            <span class="timeline-time">11:45am</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Lunch</span>
+            <span class="timeline-time">1:15pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Lorin Hochstein</span>
+                  <span class="talk-title"><em>Saturation: How Your Software Will Fail at Scale</em></span>
+                </summary>
+                <p>Even in the ethereal world of software, everything has a limit. And, once that limit is reached, very bad things can happen. In this talk, we will explore the problem of saturation: when a software system runs into one of these limits. We'll see a sampling of the many different kinds of system overload, how our systems are always potentially at risk of saturation no matter how well designed they are, and what we can do to prepare for the day when a system in our charge has been pushed beyond what it can normally handle.</p>
+              </details>
+            </div>
+            <span class="timeline-time">2:00pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Filip Pizlo</span>
+                  <span class="talk-title"><em>TBA</em></span>
+                </summary>
+                <p>TBA</p>
+              </details>
+            </div>
+            <span class="timeline-time">2:45pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Break</span>
+            <span class="timeline-time">3:15pm</span>
+            <span class="timeline-dot"></span>
+            <div class="timeline-label">
+              <details class="talk-details">
+                <summary>
+                  <span class="speaker-name">Carson Gross</span>
+                  <span class="talk-title"><em>AI &amp; The University</em></span>
+                </summary>
+                <p>The last year has seen the dramatic emergence of widespread AI-based coding practices. This has shaken many developers' faith in computer programming both as a career and as a vocation. It has also shaken University departments, especially in computer science: students are using AI to complete assignments, take tests, and, as one would expect with students, to avoid as much work as possible.</p>
+                <p>In this talk, Carson, who teaches computer science at Montana State University, will consider the position of the University in the age of AI tools: the good, the bad, and the ugly. Perhaps surprisingly, he will present an optimistic take on how the University can, with some changes, provide an excellent platform for preparing students for a fruitful career in technology.</p>
+              </details>
+            </div>
+            <span class="timeline-time">4:00pm</span>
+            <span class="timeline-dot"></span>
+            <span class="timeline-label">Closing remarks</span>
             <span class="timeline-time">4:15pm</span>
             <span class="timeline-dot"></span>
             <span class="timeline-label">Day two ends</span>
           </div>
         </div>
       </div>
+      <p><em>Order subject to change</em></p>
       <h2>Venue</h2>
       <figure>
         <div class="media-row">
