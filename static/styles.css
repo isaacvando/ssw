@@ -158,6 +158,30 @@ h2 {
   font-size: var(--font-size-h2);
 }
 
+.heading-link {
+  color: inherit;
+  position: relative;
+  text-decoration: none;
+}
+
+.heading-link::after {
+  content: "#";
+  margin-left: 0.35em;
+  color: var(--color-text-secondary);
+  opacity: 0;
+}
+
+.heading-link:hover,
+.heading-link:focus-visible {
+  font-style: normal;
+  text-decoration: none;
+}
+
+.heading-link:hover::after,
+.heading-link:focus-visible::after {
+  opacity: 1;
+}
+
 a {
   color: var(--color-text);
   text-decoration: underline;
