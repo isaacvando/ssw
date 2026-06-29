@@ -251,12 +251,18 @@
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Richard Feldman</span>
-                  <span class="talk-title"><em>Dependency Cultures</em></span>
+                  <span class="speaker-name">Andrew Kelley</span>
+                  <span class="talk-title"><em>Don't Take the Black Pill</em></span>
                 </summary>
-                <p>Some software depends on no third-party code. Some depends on a ton of it. Whether these dependencies are brought in at runtime, at build time, forked, "vendored," included directly or indirectly, and how carefully they were vetted before being brought on, can have a huge impact on how well the software works - and how vulnerable it is to exploits.</p>
-                <p>Despite this, there's no consensus on the best way to think about dependencies. It's been a source of major disagreement among programmers for decades, and different communities have developed their own norms around dependencies. Some of these differences are technical, but many are cultural: practices we follow mostly because our peers do it that way, and straying from the herd carries risk.</p>
-                <p>This talk explores a wide spectrum of differing cultural practices around dependencies, as well as the benefits and drawbacks of each. Come see how others are doing it, what's worked and what hasn't, and what new ideas you might be able to take back to your own practice!</p>
+                <p>In our modern world, it's easy to feel like things are careening out of control; that the future is happening to us while we take a back seat... and all we can do is lie down and rot.</p>
+                <p>
+                  I'm here to say, screw that! Let's apply systems thinking to the way that software and technology is integrated into our society, envision it differently, and then draw a line from here to there, identifying steps we can take
+                  <em>right now</em>
+                  along this trajectory.
+                </p>
+                <p>
+                  This talk will be passionate and heartfelt, provocative, and entertaining; it will offer the audience optimism, solidarity, and purpose in the chaotic socio-technological climate that we face.
+                </p>
               </details>
             </div>
             <span class="timeline-time">10:00am</span>
@@ -264,10 +270,11 @@
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Alexis King</span>
-                  <span class="talk-title"><em>The Unreasonable Effectiveness of Constructive Data Modeling</em></span>
+                  <span class="speaker-name">Richard Hipp</span>
+                  <span class="talk-title"><em>Reliability Lessons From SQLite</em></span>
                 </summary>
-                <p>TBA</p>
+                <p>SQLite is a C-language library that implements a self-contained, in-process relational database engine supporting full-featured SQL, an advanced query planner, and ACID transactions. By many estimates, SQLite is the most widely used software library in the world today.</p>
+                <p>Over its 26-year history, SQLite has gained a reputation as software that "just works". This talk goes over the design choices and development practices that have, at least in the opinion of the lead developer, resulted in that reputation.</p>
               </details>
             </div>
             <span class="timeline-time">10:45am</span>
@@ -278,11 +285,10 @@
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Richard Hipp</span>
-                  <span class="talk-title"><em>Reliability Lessons From SQLite</em></span>
+                  <span class="speaker-name">Alexis King</span>
+                  <span class="talk-title"><em>The Unreasonable Effectiveness of Constructive Data Modeling</em></span>
                 </summary>
-                <p>SQLite is a C-language library that implements a self-contained, in-process relational database engine supporting full-featured SQL, an advanced query planner, and ACID transactions. By many estimates, SQLite is the most widely used software library in the world today.</p>
-                <p>Over its 26-year history, SQLite has gained a reputation as software that "just works". This talk goes over the design choices and development practices that have, at least in the opinion of the lead developer, resulted in that reputation.</p>
+                <p>TBA</p>
               </details>
             </div>
             <span class="timeline-time">12:00pm</span>
@@ -358,15 +364,6 @@
                 </details>
                 <details class="talk-details">
                   <summary>
-                    <span class="speaker-name">Jayaprabhakar Kadarkarai</span>
-                    <span class="talk-title"><em>Why You Should Create Your Own DSLs in the AI Era</em></span>
-                  </summary>
-                  <p>Most AI applications have moved beyond chat interfaces and now rely on structured outputs, function calling, and agent workflows. While these approaches work well initially, they often become difficult to scale as prompts grow, workflows become more complex, and reliability requirements increase.</p>
-                  <p>In this talk, I'll share lessons learned building AI-powered developer tools and explain why we started replacing ad-hoc schemas and function calls with purpose-built domain-specific languages (DSLs). I'll show how DSLs can make AI systems more reliable, easier to validate, cheaper to run, and easier for both humans and models to reason about.</p>
-                  <p>We'll look at concrete examples of where structured outputs break down, how a DSL can encode intent more effectively, and practical guidelines for deciding when a custom language is worth the investment.</p>
-                </details>
-                <details class="talk-details">
-                  <summary>
                     <span class="speaker-name">Trevor Settles</span>
                     <span class="talk-title"><em>I Just Wanted a Non-Blurry Screen Magnifier</em></span>
                   </summary>
@@ -378,10 +375,12 @@
                 </details>
                 <details class="talk-details">
                   <summary>
-                    <span class="speaker-name">Tom Wheeler</span>
-                    <span class="talk-title"><em>How Temporal Achieves Durable Execution</em></span>
+                    <span class="speaker-name">Jayaprabhakar Kadarkarai</span>
+                    <span class="talk-title"><em>Why You Should Create Your Own DSLs in the AI Era</em></span>
                   </summary>
-                  <p>Temporal is an open source platform used by thousands of companies to make applications more reliable. One of its key features is Durable Execution: crash-proof execution that gives applications automatic state persistence and the ability to run reliably for any length of time. In this lightning talk, you’ll see what happens when a Temporal application crashes, and how it automatically recovers and resumes without losing state or unnecessarily repeating work that has already completed.</p>
+                  <p>Most AI applications have moved beyond chat interfaces and now rely on structured outputs, function calling, and agent workflows. While these approaches work well initially, they often become difficult to scale as prompts grow, workflows become more complex, and reliability requirements increase.</p>
+                  <p>In this talk, I'll share lessons learned building AI-powered developer tools and explain why we started replacing ad-hoc schemas and function calls with purpose-built domain-specific languages (DSLs). I'll show how DSLs can make AI systems more reliable, easier to validate, cheaper to run, and easier for both humans and models to reason about.</p>
+                  <p>We'll look at concrete examples of where structured outputs break down, how a DSL can encode intent more effectively, and practical guidelines for deciding when a custom language is worth the investment.</p>
                 </details>
                 <details class="talk-details">
                   <summary>
@@ -391,6 +390,13 @@
                   <p>We have two systems at $work that are getting more loaded over time and started to fall over handling queries from clients.</p>
                   <p>Counterintuitively, when we improved throughput and latency the systems started suffering from worse performance problems.</p>
                   <p>In the lightning talk, I’ll explore why this can happen, how to spot accidental load-shedding in a service, and what to watch out for when trying to make sense of misleading metrics.</p>
+                </details>
+                <details class="talk-details">
+                  <summary>
+                    <span class="speaker-name">Tom Wheeler</span>
+                    <span class="talk-title"><em>How Temporal Achieves Durable Execution</em></span>
+                  </summary>
+                  <p>Temporal is an open source platform used by thousands of companies to make applications more reliable. One of its key features is Durable Execution: crash-proof execution that gives applications automatic state persistence and the ability to run reliably for any length of time. In this lightning talk, you’ll see what happens when a Temporal application crashes, and how it automatically recovers and resumes without losing state or unnecessarily repeating work that has already completed.</p>
                 </details>
               </div>
             </div>
@@ -411,25 +417,12 @@
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Andrew Kelley</span>
-                  <span class="talk-title"><em>Don't Take the Black Pill</em></span>
+                  <span class="speaker-name">Richard Feldman</span>
+                  <span class="talk-title"><em>Dependency Cultures</em></span>
                 </summary>
-                <p>In our modern world, it's easy to feel like things are careening out of
-control; that the future is happening to us while we take a back seat...
-and all we can do is lie down and rot.</p>
-                <p>
-                  I'm here to say, screw that! Let's apply systems thinking to the way
-that software and technology is integrated into our society, envision it
-differently, and then draw a line from here to there, identifying steps
-we can take
-                  <em>right now</em>
-                  along this trajectory.
-                </p>
-                <p>
-                  This talk will be passionate and heartfelt, provocative, and
-entertaining; it will offer the audience optimism, solidarity, and
-purpose in the chaotic socio-technological climate that we face.
-                </p>
+                <p>Some software depends on no third-party code. Some depends on a ton of it. Whether these dependencies are brought in at runtime, at build time, forked, "vendored," included directly or indirectly, and how carefully they were vetted before being brought on, can have a huge impact on how well the software works - and how vulnerable it is to exploits.</p>
+                <p>Despite this, there's no consensus on the best way to think about dependencies. It's been a source of major disagreement among programmers for decades, and different communities have developed their own norms around dependencies. Some of these differences are technical, but many are cultural: practices we follow mostly because our peers do it that way, and straying from the herd carries risk.</p>
+                <p>This talk explores a wide spectrum of differing cultural practices around dependencies, as well as the benefits and drawbacks of each. Come see how others are doing it, what's worked and what hasn't, and what new ideas you might be able to take back to your own practice!</p>
               </details>
             </div>
             <span class="timeline-time">9:45am</span>
@@ -470,10 +463,10 @@ purpose in the chaotic socio-technological climate that we face.
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Lorin Hochstein</span>
-                  <span class="talk-title"><em>Saturation: How Your Software Will Fail at Scale</em></span>
+                  <span class="speaker-name">Filip Pizlo</span>
+                  <span class="talk-title"><em>Fil-C: Garbage In, Memory Safety Out!</em></span>
                 </summary>
-                <p>Even in the ethereal world of software, everything has a limit. And, once that limit is reached, very bad things can happen. In this talk, we will explore the problem of saturation: when a software system runs into one of these limits. We'll see a sampling of the many different kinds of system overload, how our systems are always potentially at risk of saturation no matter how well designed they are, and what we can do to prepare for the day when a system in our charge has been pushed beyond what it can normally handle.</p>
+                <p>Conventional wisdom has it that C and C++ are not memory safe programming languages. A simple bug in one part of a C program can be used to achieve remote code execution even in the presence of sophisticated mitigations. The problem is severe enough to create great pressure on programmers to rewrite their code from C and C++ to other languages that are safer. This talk challenges the conventional wisdom by describing an implementation of C and C++ that achieves the same level of protection against memory safety exploits as even the safest languages. I will go into the details of Fil-C's compiler, language runtime, and some of the corpus of software that has been ported to it.</p>
               </details>
             </div>
             <span class="timeline-time">2:00pm</span>
@@ -481,19 +474,10 @@ purpose in the chaotic socio-technological climate that we face.
             <div class="timeline-label">
               <details class="talk-details">
                 <summary>
-                  <span class="speaker-name">Filip Pizlo</span>
-                  <span class="talk-title"><em>Fil-C: Garbage In, Memory Safety Out!</em></span>
+                  <span class="speaker-name">Lorin Hochstein</span>
+                  <span class="talk-title"><em>Saturation: How Your Software Will Fail at Scale</em></span>
                 </summary>
-                <p>Conventional wisdom has it that C and C++ are not memory safe
-programming languages. A simple bug in one part of a C program can be
-used to achieve remote code execution even in the presence of
-sophisticated mitigations. The problem is severe enough to create great
-pressure on programmers to rewrite their code from C and C++ to other
-languages that are safer. This talk challenges the conventional wisdom
-by describing an implementation of C and C++ that achieves the same
-level of protection against memory safety exploits as even the safest
-languages. I will go into the details of Fil-C's compiler, language
-runtime, and some of the corpus of software that has been ported to it.</p>
+                <p>Even in the ethereal world of software, everything has a limit. And, once that limit is reached, very bad things can happen. In this talk, we will explore the problem of saturation: when a software system runs into one of these limits. We'll see a sampling of the many different kinds of system overload, how our systems are always potentially at risk of saturation no matter how well designed they are, and what we can do to prepare for the day when a system in our charge has been pushed beyond what it can normally handle.</p>
               </details>
             </div>
             <span class="timeline-time">2:45pm</span>

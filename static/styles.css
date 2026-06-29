@@ -513,14 +513,9 @@ button:disabled {
   display: none;
 }
 
-.speaker-name {
-  display: block;
-  font-weight: 700;
-}
-
 .talk-title {
   display: block;
-  color: var(--color-text);
+  color: var(--color-text-secondary);
 }
 
 .talk-title::after {
