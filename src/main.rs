@@ -223,6 +223,8 @@ async fn main() {
         .route("/policies", get(policies))
         .route("/cfp", get(cfp_get))
         .route("/cfp", post(cfp_post))
+        .route("/feedback", get(feedback_get))
+        .route("/feedback", post(feedback_post))
         .fallback(handler_404)
         .with_state(env)
         .layer(TraceLayer::new_for_http());
@@ -285,6 +287,7 @@ enum Banner {
     TicketSuccess,
     SoldOut,
     CfpSuccess,
+    FeedbackSuccess,
     None,
 }
 
@@ -300,6 +303,7 @@ impl BannerParam {
             Some("ticket_success") => Banner::TicketSuccess,
             Some("sold_out") => Banner::SoldOut,
             Some("cfp_success") => Banner::CfpSuccess,
+            Some("feedback_success") => Banner::FeedbackSuccess,
             _ => Banner::None,
         }
     }
@@ -374,6 +378,69 @@ async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResul
         result.proposal_id, form.name, form.email, form.title
     );
     return Ok(Redirect::to("/?banner=cfp_success".into()));
+}
+
+#[derive(Template)]
+#[template(path = "feedback.html")]
+struct FeedbackTemplate {
+    static_asset_hash: String,
+}
+
+async fn feedback_get(State(env): State<Env>) -> AppResult<Html<String>> {
+    let template = FeedbackTemplate {
+        static_asset_hash: env.static_asset_hash,
+    };
+    Ok(template.render()?.into())
+}
+
+#[derive(Deserialize)]
+struct FeedbackForm {
+    name: Option<String>,
+    email: Option<String>,
+    heard_about: Option<String>,
+    feedback: Option<String>,
+    topics: Option<String>,
+}
+
+async fn feedback_post(
+    State(env): State<Env>,
+    Form(form): Form<FeedbackForm>,
+) -> AppResult<Redirect> {
+    let name = blank_to_none(form.name);
+    let email = blank_to_none(form.email);
+    let heard_about = blank_to_none(form.heard_about);
+    let feedback = blank_to_none(form.feedback);
+    let topics = blank_to_none(form.topics);
+
+    let result = sqlx::query!(
+        r#"
+          insert into feedback (name, email, heard_about, feedback, topics)
+          values (?, ?, ?, ?, ?)
+          returning feedback_id
+        "#,
+        name,
+        email,
+        heard_about,
+        feedback,
+        topics
+    )
+    .fetch_one(&env.pool)
+    .await?;
+
+    info!("Inserted feedback {}", result.feedback_id);
+
+    Ok(Redirect::to("/?banner=feedback_success".into()))
+}
+
+fn blank_to_none(value: Option<String>) -> Option<String> {
+    value.and_then(|s| {
+        let trimmed = s.trim();
+        if trimmed.is_empty() {
+            None
+        } else {
+            Some(trimmed.to_string())
+        }
+    })
 }
 
 async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {

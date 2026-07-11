@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/styles.css?v={{ static_asset_hash }}">
+    <link rel="icon" href="/images/logo_padded.svg">
+    <title>Feedback - Software Should Work</title>
+    <style>
+      main p {
+        margin-top: var(--space-xs);
+        margin-bottom: var(--space-xs);
+      }
+
+      .field-description {
+        margin-bottom: var(--space-xs);
+        font-size: var(--font-size-sm);
+      }
+    </style>
+    <script
+      data-goatcounter="https://softwareshouldwork.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </head>
+  <body>
+    <main>
+      {% include "header.html" %}
+      <h2>Feedback</h2>
+      <p>Everything on this form is optional. Share as much or as little as you want.</p>
+      <form method="post" action="feedback">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email">
+        <label for="heard_about">How did you hear about SSW?</label>
+        <textarea id="heard_about" name="heard_about" rows=4  cols=80></textarea>
+        <label for="feedback">Feedback</label>
+        <p class="field-description">
+          What did you like about the conference? What could be improved? Would you like to attend again?
+        </p>
+        <textarea id="feedback" name="feedback" rows=15  cols=80></textarea>
+        <label for="topics">Topics</label>
+        <p class="field-description">
+          What topics do you want to see covered next year? Who do you want to speak?
+        </p>
+        <textarea id="topics" name="topics" rows=8  cols=80></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+    {% include "footer.html" %}
+  </body>
+</html>

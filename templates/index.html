@@ -48,6 +48,10 @@
       <p class="banner"><strong>Success!</strong>
         We've received your proposal.</p>
       <script>history.replaceState(null, '', '/');</script>
+      {% when Banner::FeedbackSuccess %}
+      <p class="banner"><strong>Success!</strong>
+        We've received your feedback.</p>
+      <script>history.replaceState(null, '', '/');</script>
       {% when Banner::None %}
       {% endmatch %}
       <h2 id="speakers"><a class="heading-link" href="#speakers">Speakers</a></h2>
