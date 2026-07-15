@@ -444,7 +444,11 @@ fn blank_to_none(value: Option<String>) -> Option<String> {
 }
 
 async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
-    if Utc::now().date_naive() > NaiveDate::from_ymd_opt(2026, 7, 15).expect("Invalid date") {
+    if Utc::now()
+        .with_timezone(&chrono_tz::America::Chicago)
+        .date_naive()
+        > NaiveDate::from_ymd_opt(2026, 7, 16).expect("Invalid date")
+    {
         return Err(Validation(ValidationError::TicketsNoLongerOnSale));
     };
 
