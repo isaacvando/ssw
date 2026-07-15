@@ -276,6 +276,7 @@ async fn home(State(env): State<Env>, query: Query<BannerParam>) -> AppResult<Ht
     let template = HomeTemplate {
         is_early_bird,
         is_sold_out,
+        is_sales_ended: is_sales_ended(),
         banner: query.banner(),
         static_asset_hash: env.static_asset_hash,
     };
@@ -314,6 +315,7 @@ impl BannerParam {
 struct HomeTemplate {
     is_early_bird: bool,
     is_sold_out: bool,
+    is_sales_ended: bool,
     banner: Banner,
     static_asset_hash: String,
 }
@@ -443,12 +445,15 @@ fn blank_to_none(value: Option<String>) -> Option<String> {
     })
 }
 
-async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
-    if Utc::now()
+fn is_sales_ended() -> bool {
+    Utc::now()
         .with_timezone(&chrono_tz::America::Chicago)
         .date_naive()
         > NaiveDate::from_ymd_opt(2026, 7, 16).expect("Invalid date")
-    {
+}
+
+async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
+    if is_sales_ended() {
         return Err(Validation(ValidationError::TicketsNoLongerOnSale));
     };
 

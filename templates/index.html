@@ -218,14 +218,14 @@
             <p>Until March 13 at 11:59pm CDT</p>
           </div>
         </div>
-        <div class="ticket-option {% if is_early_bird || is_sold_out %}disabled{% endif %}">
+        <div class="ticket-option {% if is_early_bird || is_sold_out || is_sales_ended %}disabled{% endif %}">
           <div class="ticket-price">$599</div>
           <div class="ticket-info">
             <h3>Standard</h3>
           </div>
         </div>
-        <form id="tickets" class="ticket-option ticket-cta {% if is_sold_out %}disabled{% endif %}" action="/checkout" method="post">
-          <button type="submit" {% if is_sold_out %}disabled{% endif %}>{% if is_sold_out %}Sold Out{% else %}Buy Now{% endif %}</button>
+        <form id="tickets" class="ticket-option ticket-cta {% if is_sold_out || is_sales_ended %}disabled{% endif %}" action="/checkout" method="post">
+          <button type="submit" {% if is_sold_out || is_sales_ended %}disabled{% endif %}>{% if is_sold_out %}Sold Out{% elif is_sales_ended %}Sales Ended{% else %}Buy Now{% endif %}</button>
         </form>
       </div>
       <p>Student discount: send proof of enrollment to
