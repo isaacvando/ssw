@@ -296,7 +296,7 @@ form > button {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width, 180px), 1fr));
   gap: var(--space-md);
 }
 
@@ -318,6 +318,44 @@ form > button {
   color: var(--color-text);
   line-height: 1.2;
   margin-bottom: 0.2rem;
+}
+
+.recording-grid {
+  --card-min-width: 280px;
+}
+
+.recording-grid img {
+  aspect-ratio: 16 / 9;
+}
+
+.recording-grid a {
+  display: block;
+  position: relative;
+}
+
+.recording-grid a::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 45px;
+  border-radius: 12px;
+  background: #f00;
+  transform: translate(-50%, -50%);
+}
+
+.recording-grid a::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 15px solid white;
+  transform: translate(-40%, -50%);
 }
 
 .tickets {
