@@ -12,5 +12,6 @@ export STANDARD_PRICE_ID=price_1SbptUP4jNZJNV9kkJnfvSLc
 export ENVIRONMENT=dev
 export LINKEDIN_ACCESS_TOKEN=dummy
 export STRIPE_WEBHOOK_SECRET=dummy
+export DATABASE_URL=sqlite:ssw.db
 
 cargo watch -x run
