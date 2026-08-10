@@ -6,6 +6,12 @@ on:
   cli:
     init:
       commit-sha: ${{ event.git.sha }}
+  cron:
+    - key: test-db-backups-weekly
+      schedule: "0 3 * * SUN America/Chicago"
+      target: test-db-backups
+      init:
+        commit-sha: ${{ event.git.sha }}
 base:
   image: ubuntu:24.04
   config: rwx/base 1.0.2
@@ -61,3 +67,56 @@ tasks:
       SERVER_IP_ADDRESS: ${{ secrets.server_ip_address }}
       CLOUDFLARE_ZONE: ${{ secrets.cloudflare_zone }}
       LINKEDIN_ACCESS_TOKEN: ${{ secrets.linkedin_access_token }}
+
+  - key: test-db-backups
+    cache: false
+    run: |
+      mkdir -p ~/.ssh
+      printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/ci
+      chmod 600 ~/.ssh/ci
+      cat >> ~/.ssh/config <<EOF
+      Host server
+          HostName $SERVER_IP_ADDRESS
+          User root
+          IdentityFile ~/.ssh/ci
+          StrictHostKeyChecking no
+      EOF
+
+      ssh server 'bash -s' <<'REMOTE'
+      set -euo pipefail
+
+      restore_dir="$(mktemp -d /tmp/ssw-backup-test.XXXXXX)"
+      trap 'rm -rf -- "$restore_dir"' EXIT
+      restored_db="$restore_dir/ssw.db"
+
+      litestream restore \
+        -config /etc/litestream.yml \
+        -o "$restored_db" \
+        /root/ssw.db
+
+      integrity_check="$(sqlite3 -batch -readonly "$restored_db" 'PRAGMA quick_check;')"
+      if [ "$integrity_check" != "ok" ]; then
+        echo "Backup integrity check failed: $integrity_check" >&2
+        exit 1
+      fi
+
+      for table in ticket attendee interested_user; do
+        count="$(sqlite3 -batch -readonly "$restored_db" "SELECT COUNT(*) FROM \"$table\";")"
+        case "$count" in
+          ''|*[!0-9]*)
+            echo "Unexpected count for $table: $count" >&2
+            exit 1
+            ;;
+        esac
+
+        echo "$table: $count rows"
+        if [ "$count" -le 10 ]; then
+          echo "Expected $table to contain more than 10 rows" >&2
+          exit 1
+        fi
+      done
+      REMOTE
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SERVER_IP_ADDRESS: ${{ secrets.server_ip_address }}
+
