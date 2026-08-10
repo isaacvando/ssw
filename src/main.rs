@@ -42,6 +42,7 @@ use AppError::*;
 enum ValidationError {
     TicketsNoLongerOnSale,
     CfpClosed,
+    FeedbackClosed,
 }
 
 #[derive(Template)]
@@ -106,6 +107,9 @@ impl IntoResponse for AppError {
                 let message = match err {
                     ValidationError::TicketsNoLongerOnSale => "Tickets are no longer on sale",
                     ValidationError::CfpClosed => "The CFP is no longer accepting proposals",
+                    ValidationError::FeedbackClosed => {
+                        "The feedback form is no longer accepting responses"
+                    }
                 };
                 (StatusCode::BAD_REQUEST, format!("Bad request: {}", message))
             }
@@ -404,10 +408,13 @@ struct FeedbackForm {
     topics: Option<String>,
 }
 
+#[allow(unused)]
 async fn feedback_post(
     State(env): State<Env>,
     Form(form): Form<FeedbackForm>,
 ) -> AppResult<Redirect> {
+    return Err(Validation(ValidationError::FeedbackClosed));
+    #[allow(unreachable_code)]
     let name = blank_to_none(form.name);
     let email = blank_to_none(form.email);
     let heard_about = blank_to_none(form.heard_about);
