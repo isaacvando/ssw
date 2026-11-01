@@ -40,9 +40,9 @@ tasks:
       - migrate.sh
 
   - key: rust
-    call: rust-lang/install 1.0.5
+    call: rust-lang/install 1.1.2
     with:
-      rust-version: 1.91.0
+      rust-version: 1.99.1
 
   - key: server-binary
     use: [rust, local-db]
