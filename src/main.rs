@@ -374,7 +374,7 @@ async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResul
         "Inserted proposal {} for {} ({}) titled \"{}\"",
         result.proposal_id, form.name, form.email, form.title
     );
-    return Ok(Redirect::to("/?banner=cfp_success".into()));
+    Ok(Redirect::to("/?banner=cfp_success"))
 }
 
 #[derive(Template)]
@@ -429,7 +429,7 @@ async fn feedback_post(
 
     info!("Inserted feedback {}", result.feedback_id);
 
-    Ok(Redirect::to("/?banner=feedback_success".into()))
+    Ok(Redirect::to("/?banner=feedback_success"))
 }
 
 fn blank_to_none(value: Option<String>) -> Option<String> {
@@ -483,7 +483,7 @@ async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redir
         Some(res) => res,
         None => {
             warn!("A user requested to open a checkout session but tickets are sold out");
-            return Ok(Redirect::to("/?banner=sold_out".into()));
+            return Ok(Redirect::to("/?banner=sold_out"));
         }
     };
     info!(
@@ -698,7 +698,6 @@ async fn shutdown_signal() {
     info!("Signal received, starting graceful shutdown...");
 }
 
-#[must_use]
 fn assert(condition: bool, message: &str) -> AppResult<()> {
     if !condition {
         Err(AssertionFailure(message.into()))

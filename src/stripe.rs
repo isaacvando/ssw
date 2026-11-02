@@ -121,7 +121,7 @@ impl Stripe {
 
         // Compute HMAC with the SHA256 hash function, using endpoint secret as key
         // and signed_payload string as the message.
-        let mut mac = Hmac::<Sha256>::new_from_slice(&self.webhook_secret.as_bytes())
+        let mut mac = Hmac::<Sha256>::new_from_slice(self.webhook_secret.as_bytes())
             .map_err(|_| WebhookError::BadKey)?;
         mac.update(signed_payload.as_bytes());
 
@@ -203,12 +203,10 @@ impl Stripe {
                     serde_json::from_str(stripe_event_payload.data.object.get())?;
                 Ok(StripeEvent::CheckoutSessionExpired(event))
             }
-            event_type => {
-                return Err(AssertionFailure(format!(
-                    "Unsupported event type received! {}",
-                    event_type
-                )));
-            }
+            event_type => Err(AssertionFailure(format!(
+                "Unsupported event type received! {}",
+                event_type
+            ))),
         }
     }
 }
