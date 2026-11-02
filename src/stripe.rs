@@ -1,7 +1,7 @@
 use std::num::ParseIntError;
 
-use chrono::{Duration, Utc};
 use hmac::{Hmac, Mac};
+use jiff::{SignedDuration, Timestamp};
 use reqwest::Client;
 use serde::Deserialize;
 use serde_json::value::RawValue;
@@ -38,7 +38,7 @@ impl Stripe {
         } else {
             &self.standard_price_id
         };
-        let expires_at = Utc::now() + Duration::minutes(31);
+        let expires_at = Timestamp::now() + SignedDuration::from_mins(31);
 
         let tshirt_size_options: Vec<(String, String)> = TShirtSize::iter()
             .enumerate()
@@ -56,7 +56,7 @@ impl Stripe {
                 format!("{}/?banner=ticket_success", self.base_url),
             ),
             ("mode".into(), "payment".into()),
-            ("expires_at".into(), expires_at.timestamp().to_string()),
+            ("expires_at".into(), expires_at.as_second().to_string()),
             ("allow_promotion_codes".into(), "true".into()),
             ("line_items[0][price]".into(), price_id.into()),
             ("line_items[0][quantity]".into(), "1".into()),
@@ -111,7 +111,7 @@ impl Stripe {
         mac.verify_slice(sig.as_slice())
             .map_err(|_| WebhookError::BadSignature)?;
 
-        if (Utc::now().timestamp() - signature.t).abs() > 300 {
+        if Timestamp::now().as_second().abs_diff(signature.t) > 300 {
             return Err(WebhookError::BadTimestamp(signature.t));
         }
 

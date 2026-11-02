@@ -6,8 +6,7 @@ use axum::{
     response::{Html, IntoResponse, Json, Redirect, Response},
     routing::{get, post},
 };
-use chrono::{NaiveDate, Utc};
-use chrono_tz::America::Chicago;
+use jiff::{Timestamp, civil::date};
 use reqwest::Client;
 use serde::Deserialize;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
@@ -314,8 +313,11 @@ struct HomeTemplate {
 }
 
 fn is_early_bird(claimed: i64) -> bool {
-    let today = Utc::now().with_timezone(&Chicago).date_naive();
-    today <= NaiveDate::from_ymd_opt(2026, 3, 13).expect("Invalid date") && claimed <= 100
+    let today = Timestamp::now()
+        .in_tz("America/Chicago")
+        .expect("America/Chicago should be available")
+        .date();
+    today <= date(2026, 3, 13) && claimed <= 100
 }
 
 #[derive(Template)]
@@ -442,10 +444,11 @@ fn blank_to_none(value: Option<String>) -> Option<String> {
 }
 
 fn is_sales_ended() -> bool {
-    Utc::now()
-        .with_timezone(&chrono_tz::America::Chicago)
-        .date_naive()
-        > NaiveDate::from_ymd_opt(2026, 7, 16).expect("Invalid date")
+    Timestamp::now()
+        .in_tz("America/Chicago")
+        .expect("America/Chicago should be available")
+        .date()
+        > date(2026, 7, 16)
 }
 
 async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redirect> {
