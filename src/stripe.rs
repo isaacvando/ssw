@@ -44,8 +44,14 @@ impl Stripe {
             .enumerate()
             .flat_map(|(i, size)| {
                 [
-                    (format!("custom_fields[0][dropdown][options][{i}][label]"), size.external_display_name().into()),
-                    (format!("custom_fields[0][dropdown][options][{i}][value]"), size.to_string()),
+                    (
+                        format!("custom_fields[0][dropdown][options][{i}][label]"),
+                        size.external_display_name().into(),
+                    ),
+                    (
+                        format!("custom_fields[0][dropdown][options][{i}][value]"),
+                        size.to_string(),
+                    ),
                 ]
             })
             .collect();
@@ -62,7 +68,10 @@ impl Stripe {
             ("line_items[0][quantity]".into(), "1".into()),
             ("custom_fields[0][key]".into(), "tshirt_size".into()),
             ("custom_fields[0][label][type]".into(), "custom".into()),
-            ("custom_fields[0][label][custom]".into(), "T-shirt size".into()),
+            (
+                "custom_fields[0][label][custom]".into(),
+                "T-shirt size".into(),
+            ),
             ("custom_fields[0][type]".into(), "dropdown".into()),
             ("custom_fields[0][optional]".into(), "false".into()),
         ];
@@ -70,17 +79,26 @@ impl Stripe {
         params.extend([
             ("custom_fields[1][key]".into(), "traveling_from".into()),
             ("custom_fields[1][label][type]".into(), "custom".into()),
-            ("custom_fields[1][label][custom]".into(), "Where are you traveling from?".into()),
+            (
+                "custom_fields[1][label][custom]".into(),
+                "Where are you traveling from?".into(),
+            ),
             ("custom_fields[1][type]".into(), "text".into()),
             ("custom_fields[1][optional]".into(), "true".into()),
             ("custom_fields[2][key]".into(), "workplace".into()),
             ("custom_fields[2][label][type]".into(), "custom".into()),
-            ("custom_fields[2][label][custom]".into(), "Where do you work?".into()),
+            (
+                "custom_fields[2][label][custom]".into(),
+                "Where do you work?".into(),
+            ),
             ("custom_fields[2][type]".into(), "text".into()),
             ("custom_fields[2][optional]".into(), "true".into()),
             // Collect the customer's name even if we're giving away a free ticket
             ("name_collection[individual][enabled]".into(), "true".into()),
-            ("name_collection[individual][optional]".into(), "false".into()),
+            (
+                "name_collection[individual][optional]".into(),
+                "false".into(),
+            ),
         ]);
         let response_str = self
             .client
