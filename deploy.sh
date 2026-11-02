@@ -22,7 +22,6 @@ echo "Setting secrets"
 ssh server "umask 077 && cat > /root/secrets.env" <<EOF
 STRIPE_API_KEY=$STRIPE_API_KEY
 STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET
-LINKEDIN_ACCESS_TOKEN=${LINKEDIN_ACCESS_TOKEN:-}
 EOF
 
 echo "Setting up Alloy"

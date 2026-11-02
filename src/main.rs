@@ -11,10 +11,9 @@ use chrono_tz::America::Chicago;
 use reqwest::Client;
 use serde::Deserialize;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
+use std::env;
 use std::net::SocketAddr;
 use std::str::FromStr;
-use std::{env, time::Duration};
-mod linkedin;
 mod stripe;
 use strum_macros::Display;
 use tokio::signal;
@@ -22,7 +21,6 @@ use tower_http::trace::TraceLayer;
 use tracing::{error, info, warn};
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
-use crate::linkedin::{CheckoutConversion, LinkedIn};
 use crate::stripe::{
     CheckoutSessionCompleted, CheckoutSessionExpired, Stripe, StripeEvent, WebhookError,
 };
@@ -162,7 +160,6 @@ type AppResult<T> = Result<T, AppError>;
 struct Env {
     pool: SqlitePool,
     stripe: Stripe,
-    linkedin: LinkedIn,
     static_asset_hash: String,
 }
 
@@ -205,17 +202,9 @@ async fn main() {
         client: Client::new(),
     };
 
-    let linkedin = LinkedIn {
-        access_token: env_var("LINKEDIN_ACCESS_TOKEN"),
-        client: Client::builder()
-            .timeout(Duration::from_secs(5))
-            .build()
-            .expect("Unable to build LinkedIn HTTP client"),
-    };
     let env = Env {
         pool,
         stripe,
-        linkedin: linkedin,
         static_asset_hash: env::var("STATIC_ASSET_HASH").unwrap_or_else(|_| "dev".to_string()),
     };
     let app = Router::new()
@@ -589,14 +578,6 @@ async fn stripe_webhook(
             .ok_or(AssertionFailure(format!("No ticket found with id {}", id)))?;
 
             let ticket_id = ticket.ticket_id;
-            let linkedin_conversion = CheckoutConversion {
-                checkout_session_id: id.clone(),
-                name: name.clone(),
-                email: email.clone(),
-                total,
-                ip_address: ticket.ip_address,
-            };
-
             let mut tx = env.pool.begin().await?;
             let attendee_id = sqlx::query!(
                 r#"
@@ -635,18 +616,6 @@ async fn stripe_webhook(
                 result.rows_affected() == 1,
                 "A single ticket should be marked sold when a checkout session completes",
             )?;
-
-            tokio::spawn(async move {
-                match env
-                    .linkedin
-                    .clone()
-                    .send_checkout_conversion(linkedin_conversion)
-                    .await
-                {
-                    Ok(()) => info!("Sent LinkedIn checkout conversion"),
-                    Err(err) => warn!("Unable to send LinkedIn checkout conversion: {}", err),
-                }
-            });
 
             Ok(StatusCode::OK)
         }
