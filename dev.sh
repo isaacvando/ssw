@@ -13,4 +13,4 @@ export ENVIRONMENT=dev
 export STRIPE_WEBHOOK_SECRET=dummy
 export DATABASE_URL=sqlite:ssw.db
 
-cargo watch -x run
+bacon run
