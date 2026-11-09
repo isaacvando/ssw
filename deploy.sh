@@ -22,6 +22,7 @@ echo "Setting secrets"
 ssh server "umask 077 && cat > /root/secrets.env" <<EOF
 STRIPE_API_KEY=$STRIPE_API_KEY
 STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET
+RESEND_API_KEY=$RESEND_API_KEY
 EOF
 
 echo "Setting up Alloy"
@@ -58,6 +59,7 @@ echo "Copying service files"
 scp blue.env server:/root
 scp green.env server:/root
 scp ssw@.service server:/etc/systemd/system
+scp ssw-resend-sync.service ssw-resend-sync.timer server:/etc/systemd/system
 
 echo "Computing static asset hash"
 STATIC_ASSET_HASH=$(find static -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -c1-8)
@@ -106,6 +108,9 @@ if ssh server "curl -s -f http://localhost:$NEW_PORT/healthcheck > /dev/null"; t
 
   echo "Stopping old service"
   ssh server "systemctl is-active ssw@$OLD_COLOR --quiet && systemctl stop ssw@$OLD_COLOR"
+
+  echo "Enabling hourly Resend sync"
+  ssh server 'systemctl enable --now ssw-resend-sync.timer && systemctl is-active ssw-resend-sync.timer --quiet'
 else
   echo "Service is not healthy"
   exit 1

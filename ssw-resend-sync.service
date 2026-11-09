@@ -1,0 +1,12 @@
+[Unit]
+Description=Sync SSW email subscribers to Resend
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/root/ssw sync-resend
+EnvironmentFile=/root/config.env
+EnvironmentFile=/root/secrets.env
+TimeoutStartSec=12min

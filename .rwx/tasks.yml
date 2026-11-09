@@ -62,6 +62,7 @@ tasks:
       B2_SECRET_KEY: ${{ secrets.b2_secret_key }}
       STRIPE_API_KEY: ${{ secrets.stripe_api_key }}
       STRIPE_WEBHOOK_SECRET: ${{ secrets.stripe_webhook_secret }}
+      RESEND_API_KEY: ${{ secrets.resend_api_key }}
       CLOUDFLARE_API_KEY: ${{ secrets.cloudflare_api_key }}
       GRAFANA_API_KEY: ${{ secrets.grafana_api_key }}
       SERVER_IP_ADDRESS: ${{ secrets.server_ip_address }}

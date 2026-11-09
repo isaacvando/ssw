@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync SSW email subscribers to Resend daily
+
+[Timer]
+OnCalendar=*-*-* 09:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

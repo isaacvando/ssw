@@ -12,7 +12,9 @@ use serde::Deserialize;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePool};
 use std::env;
 use std::net::SocketAddr;
+use std::process::ExitCode;
 use std::str::FromStr;
+mod resend;
 mod stripe;
 use strum_macros::Display;
 use tokio::signal;
@@ -167,7 +169,7 @@ fn env_var(name: &'static str) -> String {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> ExitCode {
     let is_prod = !env::var("ENVIRONMENT").is_ok();
     // log JSON in prod, not in dev
     if is_prod {
@@ -180,6 +182,24 @@ async fn main() {
             .with(EnvFilter::new("info,tower_http=debug"))
             .with(tracing_subscriber::fmt::layer())
             .init();
+    }
+
+    let mut args = env::args().skip(1);
+    match (args.next().as_deref(), args.next()) {
+        (None, None) => {}
+        (Some("sync-resend"), None) => {
+            return match resend::run().await {
+                Ok(()) => ExitCode::SUCCESS,
+                Err(err) => {
+                    error!("Resend sync failed: {err}");
+                    ExitCode::FAILURE
+                }
+            };
+        }
+        _ => {
+            error!("Expected no arguments or sync-resend");
+            return ExitCode::from(2);
+        }
     }
 
     let db_options = SqliteConnectOptions::from_str(&env_var("DATABASE_URL"))
@@ -230,6 +250,7 @@ async fn main() {
         .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
+    ExitCode::SUCCESS
 }
 
 async fn healthcheck(State(env): State<Env>) -> AppResult<&'static str> {

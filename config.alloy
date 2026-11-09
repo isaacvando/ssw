@@ -99,7 +99,7 @@ discovery.relabel "logs_integrations_integrations_node_exporter_journal_scrape" 
   targets = []
   rule {
     source_labels = ["__journal__systemd_unit"]
-    regex         = "ssw@(blue|green)\\.service"
+    regex         = "(ssw@(blue|green)|ssw-resend-sync)\\.service"
     target_label  = "job"
     replacement   = "ssw"
   }
