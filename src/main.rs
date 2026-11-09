@@ -656,17 +656,21 @@ async fn interested_user(
     State(env): State<Env>,
     Json(payload): Json<InterestedUserRequest>,
 ) -> AppResult<StatusCode> {
-    sqlx::query!(
+    let email = payload.email.trim().to_lowercase();
+    let result = sqlx::query!(
         r#"
         insert into interested_user (email)
         values (?)
+        on conflict (lower(trim(email))) do nothing
         "#,
-        payload.email
+        email
     )
     .execute(&env.pool)
     .await?;
 
-    info!("Added interested user: {}", payload.email);
+    if result.rows_affected() > 0 {
+        info!("Added interested user: {}", email);
+    }
 
     Ok(StatusCode::OK)
 }
