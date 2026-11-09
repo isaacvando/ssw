@@ -26,6 +26,8 @@ use crate::stripe::{
     CheckoutSessionCompleted, CheckoutSessionExpired, Stripe, StripeEvent, WebhookError,
 };
 
+const CURRENT_CONFERENCE_YEAR: i64 = 2027;
+
 enum AppError {
     Reqwest(reqwest::Error),
     Serde(serde_json::Error),
@@ -263,8 +265,10 @@ async fn home(State(env): State<Env>, query: Query<BannerParam>) -> AppResult<Ht
         r#"
            select count(*) as claimed
            from ticket
-           where status = 'Pending' or status = 'Sold'
-        "#
+           where conference_year = ?
+           and status in ('Pending', 'Sold')
+        "#,
+        CURRENT_CONFERENCE_YEAR
     )
     .fetch_one(&env.pool)
     .await?
@@ -278,9 +282,11 @@ async fn home(State(env): State<Env>, query: Query<BannerParam>) -> AppResult<Ht
         select not exists (
             select 1
             from ticket
-            where status = 'Available'
+            where conference_year = ?
+            and status = 'Available'
         ) as "sold_out: bool"
     "#,
+            CURRENT_CONFERENCE_YEAR
         )
         .fetch_one(&env.pool)
         .await?
@@ -379,10 +385,11 @@ async fn cfp_post(State(env): State<Env>, Form(form): Form<CfpForm>) -> AppResul
     #[allow(unreachable_code)]
     let result = sqlx::query!(
         r#"
-          insert into proposal (name, email, title, abstract, comments)
-          values (?, ?, ?, ?, ?)
+          insert into proposal (conference_year, name, email, title, abstract, comments)
+          values (?, ?, ?, ?, ?, ?)
           returning proposal_id
         "#,
+        CURRENT_CONFERENCE_YEAR,
         form.name,
         form.email,
         form.title,
@@ -435,10 +442,11 @@ async fn feedback_post(
 
     let result = sqlx::query!(
         r#"
-          insert into feedback (name, email, heard_about, feedback, topics)
-          values (?, ?, ?, ?, ?)
+          insert into feedback (conference_year, name, email, heard_about, feedback, topics)
+          values (?, ?, ?, ?, ?, ?)
           returning feedback_id
         "#,
+        CURRENT_CONFERENCE_YEAR,
         name,
         email,
         heard_about,
@@ -486,16 +494,20 @@ async fn checkout(State(env): State<Env>, headers: HeaderMap) -> AppResult<Redir
         where ticket_id = (
             select ticket_id
             from ticket
-            where status = 'Available'
+            where conference_year = ?
+            and status = 'Available'
             and locked_at is null
             limit 1
         )
         returning ticket_id, (
             select count(*)
             from ticket
-            where status in ('Sold', 'Pending')
+            where conference_year = ?
+            and status in ('Sold', 'Pending')
         ) as claimed
-        "#
+        "#,
+        CURRENT_CONFERENCE_YEAR,
+        CURRENT_CONFERENCE_YEAR
     )
     .fetch_optional(&env.pool)
     .await?;

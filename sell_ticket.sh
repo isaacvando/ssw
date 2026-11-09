@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "$#" -ne 3 ]; then
-  echo "usage: $0 NAME EMAIL TSHIRT_SIZE" >&2
+if [ "$#" -ne 4 ]; then
+  echo "usage: $0 CONFERENCE_YEAR NAME EMAIL TSHIRT_SIZE" >&2
+  exit 1
+fi
+
+if [[ ! "$1" =~ ^[0-9]{4}$ ]]; then
+  echo "CONFERENCE_YEAR must be a four-digit year" >&2
   exit 1
 fi
 
@@ -12,9 +17,10 @@ quote() {
   printf "'"
 }
 
-name="$(quote "$1")"
-email="$(quote "$2")"
-tshirt_size="$(quote "$3")"
+conference_year="$(quote "$1")"
+name="$(quote "$2")"
+email="$(quote "$3")"
+tshirt_size="$(quote "$4")"
 
 sqlite3 "ssw.db" <<SQL
 .bail on
@@ -23,7 +29,8 @@ BEGIN IMMEDIATE;
 CREATE TEMP TABLE selected_ticket(ticket_id integer primary key);
 INSERT INTO selected_ticket
 SELECT ticket_id FROM ticket
-WHERE status = 'Available'
+WHERE conference_year = $conference_year
+AND status = 'Available'
 ORDER BY ticket_id LIMIT 1;
 
 CREATE TEMP TABLE require_ticket(found integer not null check(found = 1));
