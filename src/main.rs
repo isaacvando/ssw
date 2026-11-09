@@ -654,16 +654,22 @@ struct InterestedUserRequest {
 
 async fn interested_user(
     State(env): State<Env>,
+    headers: HeaderMap,
     Json(payload): Json<InterestedUserRequest>,
 ) -> AppResult<StatusCode> {
     let email = payload.email.trim().to_lowercase();
+    let ip_address = headers
+        .get("CF-Connecting-IP")
+        .and_then(|h| h.to_str().ok());
+
     let result = sqlx::query!(
         r#"
-        insert into interested_user (email)
-        values (?)
+        insert into interested_user (email, ip_address)
+        values (?, ?)
         on conflict (lower(trim(email))) do nothing
         "#,
-        email
+        email,
+        ip_address
     )
     .execute(&env.pool)
     .await?;
