@@ -331,6 +331,7 @@ impl BannerParam {
 
 #[derive(Template)]
 #[template(path = "index.html")]
+#[allow(unused)]
 struct HomeTemplate {
     is_early_bird: bool,
     is_sold_out: bool,

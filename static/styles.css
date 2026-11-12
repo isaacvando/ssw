@@ -140,6 +140,22 @@ header img {
   font-size: 1.4rem;
 }
 
+.announcement {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background-color: var(--color-text);
+  color: var(--color-bg-body);
+}
+
+.announcement h2 {
+  margin: 0 0 var(--space-xs);
+}
+
+.announcement p {
+  color: inherit;
+  font-size: 1.4rem;
+}
+
 header h1 {
   text-wrap: wrap;
 }

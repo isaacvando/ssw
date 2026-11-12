@@ -8,22 +8,24 @@
     <link rel="preload" href="fonts/subset/JetBrainsMono-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/subset/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="images/logo_padded.svg" as="image">
+    {# Restore speaker preloads when the new lineup is announced.
     <link rel="preload" href="images/andrew_kelley.avif" as="image">
     <link rel="preload" href="images/richard_feldman.avif" as="image">
     <link rel="preload" href="images/hillel_wayne.avif" as="image">
     <link rel="preload" href="images/carson_gross.avif" as="image">
+    #}
     <link rel="stylesheet" href="styles.css?v={{ static_asset_hash }}">
     <link rel="icon" href="images/logo_padded.svg">
-    <meta name="description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <meta name="description" content="Software Should Work returns for its second year! An independent conference on software reliability in Columbia, MO on July 15-16, 2027.">
     <title>Software Should Work</title>
     <meta property="og:type" content="website">
     <meta property="og:title" content="Software Should Work">
-    <meta property="og:description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <meta property="og:description" content="Software Should Work returns for its second year! An independent conference on software reliability in Columbia, MO on July 15-16, 2027.">
     <meta property="og:image" content="https://softwareshould.work/images/software_should_work_preview.png">
     <meta property="og:url" content="https://softwareshould.work">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Software Should Work">
-    <meta name="twitter:description" content="An independent conference on software reliability in Columbia, MO on July 16-17, 2026">
+    <meta name="twitter:description" content="Software Should Work returns for its second year! An independent conference on software reliability in Columbia, MO on July 15-16, 2027.">
     <meta name="twitter:image" content="https://softwareshould.work/images/software_should_work_preview.png">
     <script
       data-goatcounter="https://softwareshouldwork.goatcounter.com/count"
@@ -35,6 +37,19 @@
     <main>
       {% include "header.html" %}
       <p class="main-paragraph">An independent conference on software reliability.</p>
+      <section class="announcement" aria-labelledby="announcement-title">
+        <h2 id="announcement-title">We're back for year two!</h2>
+        <p>Join us July 15–16, 2027.</p>
+      </section>
+      <div id="interested-banner" class="banner" style="display: none;"></div>
+      <form id="interested-form">
+        <label for="interested-email">Keep me updated</label>
+        <div class="form-row">
+          <input type="email" id="interested-email" name="email" placeholder="you@example.com" required>
+          <button type="submit">Subscribe</button>
+        </div>
+      </form>
+      {# Restore banners and speaker sections when we launch the new year.
       {% match banner %}
       {% when Banner::TicketSuccess %}
       <p class="banner"><strong>Success!</strong>
@@ -201,14 +216,43 @@
           </figcaption>
         </figure>
       </div>
-      <h2 id="recordings"><a class="heading-link" href="#recordings">Recordings</a></h2>
+      #}
+      <h2 id="recordings"><a class="heading-link" href="#recordings">2026 Recordings</a></h2>
       <div class="card-grid recording-grid">
         <figure class="card">
-          <a href="https://youtu.be/uubcJ9Bvt7M" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/uubcJ9Bvt7M/maxresdefault.jpg">
+          <a href="https://youtu.be/V_qzqY1bb7I" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/V_qzqY1bb7I/maxresdefault.jpg">
           </a>
           <figcaption>
-            <div class="card-name">Lightning Talks</div>
+            <div class="card-name">Reliability Lessons From SQLite</div>
+            <div class="card-subtitle">Richard Hipp</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://youtu.be/0BXuYlNrUmE" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/0BXuYlNrUmE/maxresdefault.jpg">
+          </a>
+          <figcaption>
+            <div class="card-name">The Unreasonable Effectiveness of Constructive Data Modeling</div>
+            <div class="card-subtitle">Alexis King</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://youtu.be/zLZwpH5lCD4" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/zLZwpH5lCD4/maxresdefault.jpg">
+          </a>
+          <figcaption>
+            <div class="card-name">Don't Take the Black Pill</div>
+            <div class="card-subtitle">Andrew Kelley</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <a href="https://youtu.be/E82ly38YEEQ" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/E82ly38YEEQ/maxresdefault.jpg">
+          </a>
+          <figcaption>
+            <div class="card-name">Dependency Cultures</div>
+            <div class="card-subtitle">Richard Feldman</div>
           </figcaption>
         </figure>
         <figure class="card">
@@ -221,12 +265,12 @@
           </figcaption>
         </figure>
         <figure class="card">
-          <a href="https://youtu.be/mZgglPK8Rg0" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/mZgglPK8Rg0/maxresdefault.jpg">
+          <a href="https://youtu.be/5F-2Y1LPRek" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/5F-2Y1LPRek/maxresdefault.jpg">
           </a>
           <figcaption>
-            <div class="card-name">Code Worth Writing</div>
-            <div class="card-subtitle">Ray Myers</div>
+            <div class="card-name">Fil-C: Garbage In, Memory Safety Out!</div>
+            <div class="card-subtitle">Filip Pizlo</div>
           </figcaption>
         </figure>
         <figure class="card">
@@ -239,21 +283,21 @@
           </figcaption>
         </figure>
         <figure class="card">
+          <a href="https://youtu.be/mZgglPK8Rg0" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/mZgglPK8Rg0/maxresdefault.jpg">
+          </a>
+          <figcaption>
+            <div class="card-name">Code Worth Writing</div>
+            <div class="card-subtitle">Ray Myers</div>
+          </figcaption>
+        </figure>
+        <figure class="card">
           <a href="https://youtu.be/Q4y0xNFoW00" target="_blank" rel="noopener">
             <img src="https://i.ytimg.com/vi/Q4y0xNFoW00/maxresdefault.jpg">
           </a>
           <figcaption>
             <div class="card-name">System Daydreams and Logarithmic Colored Glasses</div>
             <div class="card-subtitle">Marianne Bellotti</div>
-          </figcaption>
-        </figure>
-        <figure class="card">
-          <a href="https://youtu.be/V_qzqY1bb7I" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/V_qzqY1bb7I/maxresdefault.jpg">
-          </a>
-          <figcaption>
-            <div class="card-name">Reliability Lessons From SQLite</div>
-            <div class="card-subtitle">Richard Hipp</div>
           </figcaption>
         </figure>
         <figure class="card">
@@ -284,42 +328,15 @@
           </figcaption>
         </figure>
         <figure class="card">
-          <a href="https://youtu.be/E82ly38YEEQ" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/E82ly38YEEQ/maxresdefault.jpg">
+          <a href="https://youtu.be/uubcJ9Bvt7M" target="_blank" rel="noopener">
+            <img src="https://i.ytimg.com/vi/uubcJ9Bvt7M/maxresdefault.jpg">
           </a>
           <figcaption>
-            <div class="card-name">Dependency Cultures</div>
-            <div class="card-subtitle">Richard Feldman</div>
-          </figcaption>
-        </figure>
-        <figure class="card">
-          <a href="https://youtu.be/0BXuYlNrUmE" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/0BXuYlNrUmE/maxresdefault.jpg">
-          </a>
-          <figcaption>
-            <div class="card-name">The Unreasonable Effectiveness of Constructive Data Modeling</div>
-            <div class="card-subtitle">Alexis King</div>
-          </figcaption>
-        </figure>
-        <figure class="card">
-          <a href="https://youtu.be/zLZwpH5lCD4" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/zLZwpH5lCD4/maxresdefault.jpg">
-          </a>
-          <figcaption>
-            <div class="card-name">Don't Take the Black Pill</div>
-            <div class="card-subtitle">Andrew Kelley</div>
-          </figcaption>
-        </figure>
-        <figure class="card">
-          <a href="https://youtu.be/5F-2Y1LPRek" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/5F-2Y1LPRek/maxresdefault.jpg">
-          </a>
-          <figcaption>
-            <div class="card-name">Fil-C: Garbage In, Memory Safety Out!</div>
-            <div class="card-subtitle">Filip Pizlo</div>
+            <div class="card-name">Lightning Talks</div>
           </figcaption>
         </figure>
       </div>
+      {# Restore conference details when we launch the new year.
       <h2 id="sponsors"><a class="heading-link" href="#sponsors">Sponsors</a></h2>
       <div class="sponsors">
         <a href="https://antithesis.com"><img src="images/antithesis.avif" alt="Antithesis logo"></a>
@@ -350,14 +367,6 @@
       <p>Student discount: send proof of enrollment to
         <a href="mailto:isaac@softwareshouldwork.com">isaac@softwareshouldwork.com</a>
         for $150 off.</p>
-      <div id="interested-banner" class="banner" style="display: none;"></div>
-      <form id="interested-form">
-        <label for="interested-email">Keep me updated</label>
-        <div class="form-row">
-          <input type="email" id="interested-email" name="email" placeholder="you@example.com" required>
-          <button type="submit">Subscribe</button>
-        </div>
-      </form>
       <h2 id="schedule"><a class="heading-link" href="#schedule">Schedule</a></h2>
       <div class="schedule">
         <div class="schedule-day">
@@ -1004,6 +1013,7 @@
           </figcaption>
         </figure>
       </div>
+      #}
     </main>
     {% include "footer.html" %}
     <script>
